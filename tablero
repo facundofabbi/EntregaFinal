@@ -1,0 +1,53 @@
+import PySimpleGUI as sg
+diccionario=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+color_boton=('black','pink')
+color_boton1=('white','red')
+tam_boton=4,2
+tamanio=11,5
+boton = lambda name,key : sg.Button(name,button_color=color_boton,size=tam_boton,pad=(5,5),key=key)
+botonb = lambda name : sg.Button(name,button_color=color_boton1,size=tamanio)
+columna_1 = [[botonb(""),botonb(""),botonb(""),botonb(""),botonb(""),botonb(""),botonb("")],
+        [sg.Text('_____'  * 250, size=(88, 1),background_color='black')],
+        [boton("",i)for i in range(15)],
+        [boton("",i)for i in range(15,30)],
+        [boton("doble","doble"+str(i))for i in range(30,45)],
+        [boton("",i)for i in range(45,60)],
+        [boton("",i)for i in range(60,75)],
+        [boton("",i)for i in range(75,90)],
+        [boton("",i)for i in range(90,105)],
+        [boton("",i)for i in range(105,120)],
+        [boton("",i)for i in range(120,135)],
+        [boton("",i)for i in range(135,150)],
+        [boton("",i)for i in range(150,165)],
+        [boton("",i)for i in range(165,180)],
+        [boton("",i)for i in range(180,195)],
+        [boton("",i)for i in range(195,210)],
+        [boton("",i)for i in range(210,225)],
+        [sg.Text('_____'  * 250, size=(88, 1),background_color='black')],
+        [botonb("A"),botonb("E"),botonb("I"),botonb("O"),botonb("A0"),botonb("ale"),botonb("facu")]]
+columna_2 = [ [sg.Text('TIEMPO')],
+[sg.Text('Puntaje')]]
+#Armo el diseño de la interface
+layout = [
+        [sg.Column(columna_1), sg.Column(columna_2)]
+        ]
+
+window= sg.Window("ejercicio1",).layout(layout)
+letra=""
+vacio=""
+while True:
+    event,values=window.Read()
+    print(event)
+    print(values)
+    if event is None:
+        break
+    if  letra != "":
+        if event == "doble":
+            print("duplicar")
+        window.FindElement(event).Update(letra,button_color=('black','pink'))
+        letra=""
+        palabra=""
+    if event in diccionario :
+        letra=event
+        window.FindElement(event).Update("ya se uso",button_color=('black','black'))
+        event
