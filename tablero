@@ -5,7 +5,7 @@ color_boton1=('white','red')
 tam_boton=4,2
 tamanio=11,5
 boton = lambda name,key : sg.Button(name,button_color=color_boton,size=tam_boton,pad=(5,5),key=key)
-botonb = lambda name : sg.Button(name,button_color=color_boton1,size=tamanio)
+botonb = lambda name : sg.Button(name,key=name,button_color=color_boton1,size=tamanio)
 columna_1 = [[botonb(""),botonb(""),botonb(""),botonb(""),botonb(""),botonb(""),botonb("")],
         [sg.Text('_____'  * 250, size=(88, 1),background_color='black')],
         [boton("",i)for i in range(15)],
@@ -24,7 +24,7 @@ columna_1 = [[botonb(""),botonb(""),botonb(""),botonb(""),botonb(""),botonb(""),
         [boton("",i)for i in range(195,210)],
         [boton("",i)for i in range(210,225)],
         [sg.Text('_____'  * 250, size=(88, 1),background_color='black')],
-        [botonb("A"),botonb("E"),botonb("I"),botonb("O"),botonb("A0"),botonb("ale"),botonb("facu")]]
+        [botonb("A"),botonb("E"),botonb("I"),botonb("O"),botonb("A0"),botonb("ale"),botonb("facu"),botonb("cambiar")]]
 columna_2 = [ [sg.Text('TIEMPO')],
 [sg.Text('Puntaje')]]
 #Armo el diseño de la interface
@@ -49,5 +49,12 @@ while True:
         palabra=""
     if event in diccionario :
         letra=event
+        letrab=event
         window.FindElement(event).Update("ya se uso",button_color=('black','black'))
-        event
+        window.FindElement(event).Update(disabled=True)
+    if event == "cambiar":
+        window.FindElement(letrab).Update(disabled=False)
+        ejemplo=window.FindElement(letrab)
+        print(dir(ejemplo))
+        print("boton: ",ejemplo)
+        ejemplo.update("J",button_color=('black','pink'))
