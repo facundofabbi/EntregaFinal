@@ -58,7 +58,7 @@ while True:
         if  box_x > 14 or box_y > 14:
             continue
         if button_selected: # logica de boton
-            if not segundaletra:
+            if not segundaletra  and selected[box_x][box_y]==False:
                 av.EscribirEnTablero(box_x,box_y,g,matriz,selected,text_box,letra,tam_celda,Jugador1)
                 DL.chequeroDuplica(box_x,box_y,dicc,letra)
                 segundaletra=True
