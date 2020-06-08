@@ -12,16 +12,16 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon):
         ok1=False
         cambio=[]
         llavess=[]
-        window.FindElement(event).Update(button_color=('white','blue'))
+        InterfazGrafica.Check_button(event,window)
         while True:
             event,values=window.Read()
             if event!='_GRAPH_' and event !="Evaluar":
                 if event in Llaves and not event in cambio:
                     cambio.append(window.FindElement(event).GetText())
-                    window.FindElement(event).Update(button_color=('white','#45b300'))
+                    InterfazGrafica.Check_boton(event,window)
                     llavess.append(event)
                 if  event== "Cambio Letras":
-                    window.FindElement(event).Update(button_color=('black','grey'))
+                    InterfazGrafica.Uncheck_button(event,window)
                     break
             else:
                 continue
@@ -29,7 +29,7 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon):
         Jugador1.FinTurno()
         for i in range(len(llavess)):
             window.FindElement(llavess[i]).Update(lista[i])
-            window.FindElement(llavess[i]).Update(button_color=('white','green'))
+            InterfazGrafica.Uncheck_boton(llavess[i],window)
 
 
 
@@ -37,7 +37,7 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon):
 def tocoBoton(window,jugador,tab_Ejecucuon,event):
         lis=tab_Ejecucuon.get_key_usadas()
         letra=window.FindElement(event).GetText()
-        window.FindElement(event).Update(button_color=('white','#45b300'))
+        InterfazGrafica.Check_boton(event,window)
         if not event  in lis:
             tab_Ejecucuon.set_key_usadas(event)
             jugador.set_letra_usada(letra)
@@ -49,10 +49,10 @@ def tocoBoton(window,jugador,tab_Ejecucuon,event):
 def Post_Evaluamos (window,Jugador1,tab_Ejecucuon):
         # ''' update color a botones , y fin de turno a jugador'''
         Antes_usadas=Jugador1.get_Ya_Use()
-        lista=Jugador1.CambioLetras(Antes_usadas)
+        lista=Jugador1.CambioLetrasSinDevolver(Antes_usadas)
         key_usadas=tab_Ejecucuon.get_key_usadas()
         for i  in range(len(lista)):
-            window.FindElement(key_usadas[i]).Update(lista[i],button_color=('white','green'))
+            window.FindElement(key_usadas[i]).Update(lista[i],button_color=('black','#FEEFBA'))
         Jugador1.FinTurno()
 
 

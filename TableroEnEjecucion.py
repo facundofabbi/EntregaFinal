@@ -114,5 +114,5 @@ class Turno:
     def EscribirEnTablero(self,box_x,box_y,g,letra,Jugador1):
         IG.Check_box(box_x,box_y,g,self._matriz)
         self._selected[box_x][box_y]=True # esto es para no volver al mismo casillero
-        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda + 12, box_y * self._Tam_Celda + 11))
+        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
         self.id_usados_en_turno((box_x,box_y))

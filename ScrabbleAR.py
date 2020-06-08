@@ -25,8 +25,8 @@ while True:
     if event is None :
         break
     if event == "Evaluar":
-        # if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
-        if True:
+        if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+        #if True:
             Jugador1.Actualizar_Puntaje(AV.PuntosPalabra(tab_Ejecucuon))
             AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
             print(Jugador1.get_puntos_jugador())
@@ -44,8 +44,10 @@ while True:
         if values['_GRAPH_'] == (None,None):
             continue
         mouse = values["_GRAPH_"]
-        box_x = mouse[0]//tab_Ejecucuon.get_tam_Celda()
-        box_y = mouse[1]//tab_Ejecucuon.get_tam_Celda()
+        mouse1=mouse[0]-5
+        mouse2=mouse[1]-7
+        box_x = mouse1//tab_Ejecucuon.get_tam_Celda()
+        box_y = mouse2//tab_Ejecucuon.get_tam_Celda()
         if  box_x > 14 or box_y > 14:
             continue
         if Jugador1.get_boton_seleccionado(): # logica de boton

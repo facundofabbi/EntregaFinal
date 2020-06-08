@@ -76,6 +76,11 @@ class Jugador:
         return lista
 
 
+    def CambioLetrasSinDevolver(self,LetrasCambio=[]):      #no devuelvo las letras al json
+        lista= self.BuscarEnLaBolsa(len(LetrasCambio))
+        return lista
+
+
 
 
     def chequetoLetra(self,letra):
