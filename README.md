@@ -12,7 +12,6 @@ Cosas q faltan:
   
   5-  ideas para cambios de turno 
   
-  6-cunaod la palabra esta bien escrita  las letras vuelven al json y no se restans e vuevlen a sumar 
   
  
   
