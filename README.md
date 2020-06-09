@@ -12,6 +12,7 @@ Cosas q faltan:
   
   5-  ideas para cambios de turno 
   
+  6- cambiar forma en las q trabajan las matrices ( get_datomatriz, set dato martriz)
   
  
   
