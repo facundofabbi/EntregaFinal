@@ -3,24 +3,16 @@ from pattern.es import verbs
 from random import choice
 import json
 
+
 def Configuracion():
     sg.theme('DarkAmber')
 
-    frame_layout = [
-                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],
-                  [sg.Radio('FACIL', "ELEGIR", size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
-                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1))]
-               ]
-    columna1 = [
-             [sg.Frame('Configuración', frame_layout, font='Any 12', title_color='yellow')],
-             ]
-    columna2 = [
-     [sg.Image(r'foto.gif')]
-    ]
-    layout = [
-[sg.Column(columna1), sg.Column(columna2)]
-]
 
+    layout = [
+             [sg.Text('CONFIGURACION')],
+             [sg.Radio('FACIL', "ELEGIR", size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))],
+             [sg.Button('Iniciar'),sg.Button('Salir')]
+             ]
 
     windows = sg.Window("Scrabble").Layout(layout)
     event, values = windows.Read()
@@ -35,6 +27,7 @@ def Configuracion():
                 lista = [("VB",10),("JJ",10)]
                 tupla = choice(lista)
     windows.close()
+
     puntaje =  {        "A":[1],
                         "E":[1],
                         "O":[1],
@@ -103,6 +96,7 @@ def Configuracion():
     archivo1 = open ('bolsa.json','w')
     json.dump(Cant_Letras,archivo1,indent=1)
     archivo.close()
+
     return tupla
 
 if __name__ == '__main__':
