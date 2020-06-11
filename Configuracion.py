@@ -27,7 +27,8 @@ def Configuracion():
     tupla=()
     if event != None or event != 'Salir':
         if(event =='Iniciar'):
-            popup_animated(r'source.gif')
+            if values[0] == True:
+                tupla = ("Facil", 20)
             if values[1] == True:
                 tupla = ("Medio",15)
             if values[2] == True:
