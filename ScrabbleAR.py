@@ -5,12 +5,20 @@ from JugadorScrabble import Jugador
 import InterfazGrafica as IG
 import ActualziarVentana as AV
 import TableroEnEjecucion as TE
+from JugadorMaquina import Maquinola
 
 
 nivel=c.Configuracion()
 Jugador1=Jugador(True)
+maquina = Maquinola(True)
 lista=Jugador1.BuscarEnLaBolsa(7)
 Jugador1.set_Atril(lista)
+
+
+lista=maquina.BuscarEnLaBolsa(7)
+maquina.set_Atril(lista)
+
+
 tab_Ejecucuon=TE.Turno()
 tupla=IG.tablero(Jugador1,tab_Ejecucuon)
 window=tupla[0]
@@ -36,6 +44,8 @@ while True:
         window.FindElement("texto").Update(Jugador1.get_puntos_jugador())
         tab_Ejecucuon.FinTurno()
         segundaletra=False
+        l = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon.get_lista_de_letras_en_tablero())
+        maquina.evaluar_donde(tab_Ejecucuon,g,l)
         continue
     if event == "Cambio Letras":
         AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon)
@@ -53,7 +63,7 @@ while True:
             continue
         if Jugador1.get_boton_seleccionado(): # logica de boton
             if not segundaletra:
-                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
+                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra,Jugador1)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 segundaletra=True
                 tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
@@ -62,7 +72,7 @@ while True:
                 Jugador1.set_boton_seleccionado(False)
                 continue
             if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra:
-                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
+                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra,Jugador1)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
                 tab_Ejecucuon.set_palabra(letra)

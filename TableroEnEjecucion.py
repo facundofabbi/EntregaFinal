@@ -19,7 +19,7 @@ class Turno:
         self._posicionLetra1=(-20,-20)
         self._Casilleros_Especiales={}
         for i in range(0,15):
-            self._coordenadas_en_tablero=[[""]*15]
+            self._coordenadas_en_tablero.append([""]*15 )
             self._matriz.append([0]*15)
             self._selected.append([False]*15)
             self._text_box.append([""]*15)
@@ -29,7 +29,7 @@ class Turno:
         return self._selected[x][y]
     def set_casillero_selected(self ,x,y):
         self._selected[x][y]=True
-    def set__text_box_read(self,x,y,id):
+    def set_text_box_read(self,x,y,id):
         self._text_box[x][y]=id
     def get_matrizMultiplica(self):
         return self._matrizMultiplica
@@ -127,7 +127,7 @@ class Turno:
     def get_coordenadas_en_tablero(self,x,y):
         return self._coordenadas_en_tablero[x][y]
 
-    def EscribirEnTablero(self,box_x,box_y,g,letra,Jugador1):
+    def EscribirEnTablero(self,box_x,box_y,g,letra,J):
         IG.Check_box(box_x,box_y,g,self._matriz)
         self._lista_de_letras_en_tablero.append(letra)
         self._coordenadas_en_tablero[box_x][box_y]=letra

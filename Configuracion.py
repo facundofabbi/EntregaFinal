@@ -8,11 +8,11 @@ import remi.server
 
 def Configuracion():
     sg.theme('DarkAmber')
-    self.main_container = gui.VBox(width=300, height=300)
+    #self.main_container = gui.VBox(width=300, height=300)
 
     frame_layout = [
                   [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],
-                  [sg.Radio('FACIL', "ELEGIR", size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
+                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
                   ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1))]
                ]
     columna1 = [
