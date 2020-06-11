@@ -73,7 +73,7 @@ class Turno:
 
 
     def get_id(self):
-        return self._id_letra
+        return self._id_usados_en_turno
 
     def id_usados_en_turno(self,id):
         ''' El ID que llega es una tupla con las coordenas x , y para buscar en la matriz q contiene
@@ -99,7 +99,7 @@ class Turno:
                 if self._Casilleros_Especiales[(x,y)]=="TP":
                     self._triplica_palabra.append(letra)
         except KeyError:
-            print("")
+            print("")       #AREGAR COSAS
     def get_duplica(self):
         return self._duplica_palabra
     def get_triplica(self):
@@ -112,7 +112,7 @@ class Turno:
 
 
     def EscribirEnTablero(self,box_x,box_y,g,letra,Jugador1):
-        IG.Check_box(box_x,box_y,g,self._matriz)
+        IG.Check_box(box_x,box_y,g,self._matriz) #CAMBIAR COLOR CUADRADO SI SE QUIERE.
         self._selected[box_x][box_y]=True # esto es para no volver al mismo casillero
-        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
+        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda + 14, box_y * self._Tam_Celda+ 14))
         self.id_usados_en_turno((box_x,box_y))
