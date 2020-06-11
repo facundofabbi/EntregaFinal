@@ -1,16 +1,17 @@
-
 import InterfazGrafica as IG
 class Turno:
     Llaves=["boton0","boton1","boton2","boton3","boton4","boton5","boton6",]
     def __init__(self):
         self._derecha = False
         self._abajo= False
+        self._lista_de_letras_en_tablero=[]
         self._duplica_palabra=[]
         self._triplica_palabra=[]
         self._palabra=""
         self._id_usados_en_turno=[]
         self._key_usadas=[]
         self._matriz=[]
+        self._coordenadas_en_tablero=[]
         self._selected=[]
         self._text_box=[]
         self._Tam_Celda=15
@@ -18,14 +19,18 @@ class Turno:
         self._posicionLetra1=(-20,-20)
         self._Casilleros_Especiales={}
         for i in range(0,15):
+            self._coordenadas_en_tablero=[[""]*15]
             self._matriz.append([0]*15)
             self._selected.append([False]*15)
             self._text_box.append([""]*15)
             self._matrizMultiplica.append([0]*15)
 
-
-
-
+    def chequeo_selected(self,x,y):
+        return self._selected[x][y]
+    def set_casillero_selected(self ,x,y):
+        self._selected[x][y]=True
+    def set__text_box_read(self,x,y,id):
+        self._text_box[x][y]=id
     def get_matrizMultiplica(self):
         return self._matrizMultiplica
     def set_matrizMultiplica(self,m):
@@ -117,11 +122,15 @@ class Turno:
         self._palabra+=letra
     def get_palabra(self):
         return self._palabra
-
-
+    def get_lista_de_letras_en_tablero(self):
+        return self._lista_de_letras_en_tablero
+    def get_coordenadas_en_tablero(self,x,y):
+        return self._coordenadas_en_tablero[x][y]
 
     def EscribirEnTablero(self,box_x,box_y,g,letra,Jugador1):
         IG.Check_box(box_x,box_y,g,self._matriz)
+        self._lista_de_letras_en_tablero.append(letra)
+        self._coordenadas_en_tablero[box_x][box_y]=letra
         self._selected[box_x][box_y]=True # esto es para no volver al mismo casillero
         self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
         self.id_usados_en_turno((box_x,box_y))
