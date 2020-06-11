@@ -22,5 +22,3 @@ Cosas q faltan:
 
 
 6- cambiar forma en las q trabajan las matrices ( get_datomatriz, set dato martriz)
-
-PREGUTNAS: CRONOMETRO , FOTO SUPERPUESTA A LOS BOTONES
