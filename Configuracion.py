@@ -1,22 +1,33 @@
 import PySimpleGUI as sg
-from pattern.es import verbs
+#from pattern.es import verbs
 from random import choice
 import json
 
 def Configuracion():
     sg.theme('DarkAmber')
-    layout = [
-             [sg.Text('CONFIGURACION')],
-             [sg.Radio('FACIL', "ELEGIR", size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))],
-             [sg.Button('Iniciar'),sg.Button('Salir')]
+
+    frame_layout = [
+                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],
+                  [sg.Radio('FACIL', "ELEGIR", size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
+                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1))]
+               ]
+    columna1 = [
+             [sg.Frame('Configuración', frame_layout, font='Any 12', title_color='yellow')],
              ]
+    columna2 = [
+     [sg.Image(r'foto.gif')]
+    ]
+    layout = [
+[sg.Column(columna1), sg.Column(columna2)]
+]
+
+
     windows = sg.Window("Scrabble").Layout(layout)
     event, values = windows.Read()
     tupla=()
     if event != None or event != 'Salir':
         if(event =='Iniciar'):
-            if values[0] == True:
-                tupla = ("Facil",20)
+            popup_animated(r'source.gif')
             if values[1] == True:
                 tupla = ("Medio",15)
             if values[2] == True:
