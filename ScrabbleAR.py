@@ -25,7 +25,9 @@ while True:
     if event is None :
         break
     if event == "Evaluar":
-        if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+        if tab_Ejecucuon.get_palabra()=="":
+            continue
+        if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0])==True:
         #if True:
             Jugador1.Actualizar_Puntaje(AV.PuntosPalabra(tab_Ejecucuon))
             AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
@@ -33,7 +35,6 @@ while True:
         else:
             AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
         Jugador1.FinTurno()
-        window.FindElement("texto").Update(Jugador1.get_puntos_jugador())
         tab_Ejecucuon.FinTurno()
         segundaletra=False
         continue
@@ -52,7 +53,7 @@ while True:
         if  box_x > 14 or box_y > 14:
             continue
         if Jugador1.get_boton_seleccionado(): # logica de boton
-            if not segundaletra:
+            if not segundaletra  and tab_Ejecucuon.get_selected_posicion(box_x,box_y)==False:
                 tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra,Jugador1)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 segundaletra=True
@@ -61,9 +62,10 @@ while True:
                 Jugador1.set_letra("")
                 Jugador1.set_boton_seleccionado(False)
                 continue
-            if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra:
+            if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra and tab_Ejecucuon.get_selected_posicion(box_x,box_y)==False:
                 tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra,Jugador1)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
+                segundaletra=True
                 tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
                 tab_Ejecucuon.set_palabra(letra)
                 Jugador1.set_letra("")
@@ -78,5 +80,5 @@ while True:
             Jugador1.set_boton_seleccionado(True)
             letra=AV.tocoBoton(window,Jugador1,tab_Ejecucuon,event)
             if letra=="":
-                Jugador1.set_boton_seleccionado(False)
+                button_selected=False
                 continue

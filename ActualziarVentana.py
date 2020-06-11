@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
 import InterfazGrafica
 import json
-from pattern.es import spelling
-from pattern.es import lexicon
+from pattern.es import spelling as sp
+from pattern.es import lexicon as le
 from pattern.es import verbs
 from pattern.es import parse
 
@@ -11,14 +11,12 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon):
         ok=True
         ok1=False
         cambio=[]
-        llavesTurno = []
         llavess=[]
         InterfazGrafica.Check_button(event,window)
         while True:
             event,values=window.Read()
             if event!='_GRAPH_' and event !="Evaluar":
-                if event in Llaves and not event in llavesTurno:
-                    llavesTurno.append(event)
+                if event in Llaves and not event in cambio:
                     cambio.append(window.FindElement(event).GetText())
                     InterfazGrafica.Check_boton(event,window)
                     llavess.append(event)
@@ -68,7 +66,7 @@ def palabra_Invalida(tab_Ejecucuon,g,Jugador1,window):
             g.DeleteFigure(text_box[i[0]][i[1]])
             selected[i[0]][i[1]]=False
         for i in lista:
-            InterfazGrafica.Uncheck_boton(i,window)
+            window.FindElement(i).Update(button_color=('white','green'))
         tab_Ejecucuon.set_text_box(text_box)
         tab_Ejecucuon.set_selected(selected)
 
@@ -94,7 +92,6 @@ def PuntosPalabra(tab_Ejecucuon):
     pts=0
     archivo= open("puntaje_letras.json","r")
     dicc1=json.load(archivo)
-    archivo.close()
     palabra=tab_Ejecucuon.get_palabra()
     lista=tab_Ejecucuon.get_duplica()
     lista1=tab_Ejecucuon.get_triplica()
@@ -110,12 +107,11 @@ def PuntosPalabra(tab_Ejecucuon):
 
 
 def EvaluarPalabra(palabra,nivel):
-    print(palabra)
     nivel=nivel.upper()
     pal=parse(palabra).split("/")
     aux=pal[1]
     if nivel == "FACIL":
-        if palabra.lower() in spelling or palabra.lower() in lexicon :
+        if palabra in sp or palabra in le.keys() :
             return True
         else:
             return False
@@ -124,7 +120,7 @@ def EvaluarPalabra(palabra,nivel):
             return True
         else:
             return False
-    if nivel != "FACIL" and nivel != "MEDIO":
+    if nivel != "facil" and nivel != "medio":
         if aux == nivel:
             return True
         else:

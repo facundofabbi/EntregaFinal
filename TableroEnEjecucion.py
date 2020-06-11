@@ -14,13 +14,22 @@ class Turno:
         self._selected=[]
         self._text_box=[]
         self._Tam_Celda=15
+        self._matrizMultiplica=[]
         self._posicionLetra1=(-20,-20)
         self._Casilleros_Especiales={}
         for i in range(0,15):
             self._matriz.append([0]*15)
             self._selected.append([False]*15)
             self._text_box.append([""]*15)
+            self._matrizMultiplica.append([0]*15)
 
+
+
+
+    def get_matrizMultiplica(self):
+        return self._matrizMultiplica
+    def set_matrizMultiplica(self,m):
+        self._matrizMultiplica=m
     def FinTurno(self):
         self._derecha = False
         self._abajo= False
@@ -99,7 +108,7 @@ class Turno:
                 if self._Casilleros_Especiales[(x,y)]=="TP":
                     self._triplica_palabra.append(letra)
         except KeyError:
-            print("")       #AREGAR COSAS
+            print("")
     def get_duplica(self):
         return self._duplica_palabra
     def get_triplica(self):
@@ -112,7 +121,7 @@ class Turno:
 
 
     def EscribirEnTablero(self,box_x,box_y,g,letra,Jugador1):
-        IG.Check_box(box_x,box_y,g,self._matriz) #CAMBIAR COLOR CUADRADO SI SE QUIERE.
+        IG.Check_box(box_x,box_y,g,self._matriz)
         self._selected[box_x][box_y]=True # esto es para no volver al mismo casillero
-        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda + 14, box_y * self._Tam_Celda+ 14))
+        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
         self.id_usados_en_turno((box_x,box_y))
