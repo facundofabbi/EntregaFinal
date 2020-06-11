@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-#from pattern.es import verbs
+from pattern.es import verbs
 from random import choice
 import json
 
