@@ -122,15 +122,18 @@ class Turno:
         self._palabra+=letra
     def get_palabra(self):
         return self._palabra
+    def set_lista_de_letras_en_tablero(self,letra):
+        self._lista_de_letras_en_tablero.append(letra)
     def get_lista_de_letras_en_tablero(self):
         return self._lista_de_letras_en_tablero
     def get_coordenadas_en_tablero(self,x,y):
         return self._coordenadas_en_tablero[x][y]
 
-    def EscribirEnTablero(self,box_x,box_y,g,letra,J):
-        IG.Check_box(box_x,box_y,g,self._matriz)
-        self._lista_de_letras_en_tablero.append(letra)
-        self._coordenadas_en_tablero[box_x][box_y]=letra
-        self._selected[box_x][box_y]=True # esto es para no volver al mismo casillero
-        self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
-        self.id_usados_en_turno((box_x,box_y))
+    def EscribirEnTablero(self,box_x,box_y,g,letra):
+        if self._selected[box_x][box_y]==False:
+        #IG.Check_box(box_x,box_y,g,self._matriz)
+            self._lista_de_letras_en_tablero.append(letra)
+            self._coordenadas_en_tablero[box_x][box_y]=letra
+            self._selected[box_x][box_y]=True # esto es para no volver al mismo casillero
+            self._text_box[box_x][box_y] = g.DrawText(letra, (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
+            self.id_usados_en_turno((box_x,box_y))

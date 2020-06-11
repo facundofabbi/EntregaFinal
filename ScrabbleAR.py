@@ -46,6 +46,7 @@ while True:
         segundaletra=False
         l = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon.get_lista_de_letras_en_tablero())
         maquina.evaluar_donde(tab_Ejecucuon,g,l)
+        maquina.fin_turno()
         continue
     if event == "Cambio Letras":
         AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon)
@@ -62,8 +63,8 @@ while True:
         if  box_x > 14 or box_y > 14:
             continue
         if Jugador1.get_boton_seleccionado(): # logica de boton
-            if not segundaletra:
-                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra,Jugador1)
+            if not segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y):
+                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 segundaletra=True
                 tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
@@ -71,8 +72,8 @@ while True:
                 Jugador1.set_letra("")
                 Jugador1.set_boton_seleccionado(False)
                 continue
-            if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra:
-                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra,Jugador1)
+            if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y):
+                tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
                 tab_Ejecucuon.set_palabra(letra)

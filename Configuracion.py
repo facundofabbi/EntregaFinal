@@ -2,9 +2,6 @@ import PySimpleGUI as sg
 from pattern.es import verbs
 from random import choice
 import json
-import remi.gui as gui
-from remi import start, App
-import remi.server
 
 def Configuracion():
     sg.theme('DarkAmber')
