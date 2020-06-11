@@ -40,7 +40,7 @@ class Jugador:
         archivo=open ("bolsa.json","r")
         datos=json.load(archivo)
         archivo.close()
-        print(datos)
+        #print(datos)
         lista=[]
         llaves=datos.keys()
         for i in range(cantidad):
@@ -64,8 +64,7 @@ class Jugador:
         for i in LetrasCambio:
             try:
                 ListaNum=datos[i]
-                num=ListaNum[0]
-                num=num+1
+                num=ListaNum[0] + 1
                 datos[i]=[num]
             except KeyError:
                 datos[i]=[1]
