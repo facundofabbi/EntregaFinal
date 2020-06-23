@@ -3,6 +3,7 @@ from pattern.es import lexicon
 from pattern.es import verbs
 from pattern.es import parse
 from random import choice
+import random
 import json
 from JugadorGenerico import Padre
 
@@ -22,29 +23,32 @@ class Maquinola(Padre):
     def set_palabra(self,palabra):
         self._palabra = palabra
 
-
-
     def _calcular_lugar_der_aba(self,pos,tab,x,y,ok):
         selected=tab.get_selected()
         palabra_en_x=False
         palabra_en_y=False
+        pos+=1
+        resguardo_x=x
+        resguardo_y=y
         abajo_derecha = len(self._palabra) - pos
         for i in range(abajo_derecha):
-            esto=y+i
-            if esto<=14:
-                if selected[x][esto] == False and ok:
+            y=y+1
+            if y<=14:
+                if selected[x][y] == False and ok:
                     palabra_en_x = True
                 else:
                     ok = False
                     palabra_en_x = False
-        if palabra_en_x and self._calcular_lugar_izq_arri(pos-1,tab,x,y,True):
+        if palabra_en_x and self._calcular_lugar_izq_arri(pos-1,tab,resguardo_x,resguardo_y,True):
             return "x"
         else:
+            x=resguardo_x
+            y=resguardo_y
             ok = True
             for i in range(abajo_derecha):
-                esto=y+i
-                if esto<=14:
-                    if selected[x][esto] == False and ok:
+                x=x+1
+                if x<=14:
+                    if selected[x][y] == False and ok:
                         palabra_en_y = True
                     else:
                         ok = False
@@ -59,8 +63,9 @@ class Maquinola(Padre):
 
         if ok:
             for i in range(pos):
-                if x - i >=0:
-                    if tab.chequeo_selected(x-i,y) == False and ok:
+                x=x-1
+                if x<0:
+                    if tab.chequeo_selected(x,y) == False and ok:
                         ok = True
                     else:
                         ok = False
@@ -68,8 +73,9 @@ class Maquinola(Padre):
             return ok
         else:
             for i in range(pos):
-                if y - i >=0:
-                    if tab.chequeo_selected(x,y-i) == False and not ok:
+                y=y-1
+                if y<0:
+                    if tab.chequeo_selected(x,y) == False and not ok:
                         ok = False
                     else:
                         ok = True
@@ -78,39 +84,17 @@ class Maquinola(Padre):
 
 
     def lugar_random(self,tab,g):
+        ran=random.randrange(2)
         selected=tab.get_selected()
         num = len(self._palabra)
         box_x = -1
         box_y=0
-        ok = False
         cant_libres = 0
         x=0
         ok=True
-        while x<15:
-            y=0
-            cant_libres=0
-            while y<15:
-                if selected[x][y] == False:
-                    if cant_libres < num:
-                        if ok :
-                            box_x = x
-                            box_y = y
-                        cant_libres = cant_libres+1
-                        ok=False
-                    else:
-                        ok=True
-                        box_x = -1
-                        box_y =-1
-                        cant_libres = 0
-                    if cant_libres == num:
-                        ok=True
-                        x=10000
-                        y=10000
-                y+=1
-            x=x+1
-        ok=True
-        if box_x != -1:
-            x=0
+        ok_x=False
+        ok_y=False
+        if ran==0:
             while x<15:
                 y=0
                 cant_libres=0
@@ -122,25 +106,49 @@ class Maquinola(Padre):
                                 box_y = y
                             cant_libres = cant_libres+1
                             ok=False
+                        if cant_libres == num:
+                            ok_y=True
+                            ok=True
+                            x=10000
+                            y=10000
                     else:
                         ok=True
-                        box_x = -1
-                        box_y =-1
-                        cant_libres = 0
-                    if cant_libres == num:
-                        x=10000
-                        y=10000
+                        cant_libres=0
                     y+=1
                 x=x+1
-
-        for i in self._palabra:
-            if box_x!=-1 and box_x<=14 and box_y<=14:
+        else:
+            ok=True
+            if box_x == -1:
+                y=0
+                while y<15:
+                    x=0
+                    cant_libres=0
+                    while x<15:
+                        if selected[x][y] == False:
+                            if cant_libres < num:
+                                if ok :
+                                    box_x = x
+                                    box_y = y
+                                cant_libres = cant_libres+1
+                                ok=False
+                        else:
+                            ok=True
+                            cant_libres = 0
+                        if cant_libres == num:
+                            ok_x=True
+                            x=10000
+                            y=10000
+                        x+=1
+                    y=y+1
+        if ok_x or ok_y :
+            for i in self._palabra:
                 tab.EscribirEnTablero(box_x,box_y,g,i)
-            if ok:
-                box_x = box_x + 1
-            else:
-                box_y = box_y + 1
-
+                if ok_y:
+                    box_x = box_x + 1
+                else:
+                    box_y = box_y + 1
+        else :
+            print( "no se pone la palabra")
 
 
     # def _EscribirEnTablero(self,box_x,box_y,g,letra,tab):
@@ -165,43 +173,49 @@ class Maquinola(Padre):
         if l != "":
             for x in range(15):
                 for y in range(15):
-                    if l== tab_ejecucion.get_coordenadas_en_tablero(x,y):
+                    if l.upper()== tab_ejecucion.get_coordenadas_en_tablero(x,y).upper():
                         box_x = x
                         box_y = y
+                        print(box_x)
+                        print(box_y)
             for i in range(len(pal)):
                 if l == pal[i]:
-                    pos = i+1
-
-            if self._calcular_lugar_der_aba(pos,tab_ejecucion,box_x,box_y,True) == "x":       # EVALUAMOS EN LA X
-                num = pos-2
-                for i in range (pos-1):
-                    box_x = box_x-1
-                    self._EscribirEnTablero(box_x,box_y,g,pal[num],tab_ejecucion)
-                    num=num-1
-                q = len(pal) - pos
-                num = pos+1
-                for i in range (q-1):
-                    box_x = box_x+1
-                    self._EscribirEnTablero(box_x,box_y,g,pal[num],tab_ejecucion)
-                    num=num+1
-
-
-            elif self._calcular_lugar_der_aba(pos,tab_ejecucion,box_x,box_y,True) == "y":       # EVALUAMOS EN LA Y
-                num = pos-2
-                for i in range (pos-1):
-                    box_y = box_y-1
-                    if num<len(pal):
-                        self._EscribirEnTablero(box_x,box_y,g,pal[num],tab_ejecucion)
+                    pos = i
+            if box_x!=-1:
+                if self._calcular_lugar_der_aba(pos,tab_ejecucion,box_x,box_y,True) == "x":       # EVALUAMOS EN LA X
+                    num = pos-1
+                    for i in range (pos):
+                        box_x = box_x-1
+                        tab_ejecucion.EscribirEnTablero(box_x,box_y,g,pal[num])
                         num=num-1
-                q = len(pal) - pos
-                num = pos
-                for i in range (q):
-                    num=num+1
-                    if num<len(pal):
+                    aux=pos+1
+                    q = len(pal) - aux
+                    num = pos+1
+                    for i in range (q):
+                        box_x = box_x+1
+                        print(box_x,box_y)
+                        tab_ejecucion.EscribirEnTablero(box_x,box_y,g,pal[num])
+                        num=num+1
+                        print("pase por aca a escribir")
+                if self._calcular_lugar_der_aba(pos,tab_ejecucion,box_x,box_y,True) == "y":       # EVALUAMOS EN LA Y
+                    num = pos-1
+                    for i in range (pos):
+                        box_y = box_y-1
+                        tab_ejecucion.EscribirEnTablero(box_x,box_y,g,pal[num])
+                        num=num-1
+                    aux=pos+1
+                    q = len(pal) - aux
+                    num = pos+1
+                    for i in range (q):
                         box_y = box_y+1
-                        self._EscribirEnTablero(box_x,box_y,g,pal[num],tab_ejecucion)
-            else:
-                 self.lugar_random(tab_ejecucion,g)
+                        print(box_x,box_y)
+                        print("pase por aca")
+                        tab_ejecucion.EscribirEnTablero(box_x,box_y,g,pal[num])
+                        num=num+1
+                else:
+                     self.lugar_random(tab_ejecucion,g)
+            else :
+                self.lugar_random(tab_ejecucion,g)
         else:
              self.lugar_random(tab_ejecucion,g)
 
@@ -229,7 +243,8 @@ class Maquinola(Padre):
         else:
             return("",False,[])
 
-
+    def get_palabra(self):
+        return self._palabra
 
     def EncontrarPalabra(self,nivel,listaDeLetrasEnElTablero):
         tupla=("",False,[])

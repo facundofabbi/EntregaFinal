@@ -44,8 +44,9 @@ while True:
         window.FindElement("texto").Update(Jugador1.get_puntos_jugador())
         tab_Ejecucuon.FinTurno()
         segundaletra=False
-        l = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon.get_lista_de_letras_en_tablero())
-        maquina.evaluar_donde(tab_Ejecucuon,g,l)
+        letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon.get_lista_de_letras_en_tablero())
+        print(maquina.get_palabra())
+        maquina.evaluar_donde(tab_Ejecucuon,g,letrita)
         maquina.fin_turno()
         continue
     if event == "Cambio Letras":
