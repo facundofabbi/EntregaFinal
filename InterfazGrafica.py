@@ -38,7 +38,7 @@ def tablero(jugador,tab_Ejecucuon):
     [sg.Button("Evaluar",button_color=('black','#ABB2B9')),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'))]]
     columna_2 = [ [sg.Text('TIEMPO')],
     [sg.Text('PUNTAJE:'), sg.Text("",key="texto")],[ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ]
-    ,[sg.Text("")],[sg.Text('MEJSAE PARA LA PROFE')]]
+]
     #Armo el diseño de la interface
     diseño = [
     [sg.Column(columna_1), sg.Column(columna_2)]
