@@ -44,10 +44,12 @@ while True:
         window.FindElement("texto").Update(Jugador1.get_puntos_jugador())
         tab_Ejecucuon.FinTurno()
         segundaletra=False
-        letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon.get_lista_de_letras_en_tablero())
+        letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
+        print("encotnre esta letra:   "+letrita)
         print(maquina.get_palabra())
         maquina.evaluar_donde(tab_Ejecucuon,g,letrita)
         maquina.fin_turno()
+        print("no quede en bucle infinito")
         continue
     if event == "Cambio Letras":
         AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon)

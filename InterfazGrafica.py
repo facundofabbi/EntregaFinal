@@ -6,8 +6,8 @@ import json
 
 tamanio=4,2
 Check_delete = lambda x,y,g : g.TKCanvas.delete(x * tam_celda + 12, y * tam_celda + 11)
-Check_box = lambda x,y,g,matriz : g.TKCanvas.itemconfig(matriz[y][x])
-Uncheck_box = lambda x,y,g,matriz: g.TKCanvas.itemconfig(matriz[y][x])
+Check_box = lambda x,y,g,matriz : g.TKCanvas.itemconfig(matriz[y][x],fill="red")
+Uncheck_box = lambda x,y,g,matriz: g.TKCanvas.itemconfig(matriz[y][x],fill="#1D8F64")
 despintar = lambda x,g: g.TKCanvas.itemconfig(x, fill="brown")
 
 def Check_button(x,window):
