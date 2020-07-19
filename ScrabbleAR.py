@@ -7,6 +7,7 @@ import ActualziarVentana as AV
 import TableroEnEjecucion as TE
 from JugadorMaquina import Maquinola
 import Actualizacion_Bolsa as actualizar_columna
+import time
 
 
 nivel=c.Configuracion()
@@ -28,8 +29,16 @@ segundaletra=False
 ab=actualizar_columna.columna(window)
 num=1
 paso=True
+start_time = int(round(time.time()*100))
+tiempo_actual = 0
+lista_total_persona=[]
+lista_total_maquina=[]
 while True:
     event, values = window.Read()
+    tiempo_actual=int(round(time.time() * 100)) - start_time
+    window['tiempo'].update('{:02d}:{:02d}.{:02d}'.format((tiempo_actual // 100) // 60,
+                                                        (tiempo_actual // 100) % 60,
+                                                        tiempo_actual%100))
     print(values)
     print(event)
     if event=="paso":
@@ -39,6 +48,10 @@ while True:
         print(maquina.get_palabra())
         maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
         maquina.fin_turno()
+        puntos_maquina = maquina.get_puntos_jugador()
+        palabra_y_puntaje_maquina = letrita[1] + ' ' +str(puntos_maquina)
+        lista_total_maquina.append(letrita[1])
+        window['lista_maquina'].update(values = lista_total_maquina)
         continue
 
 
@@ -46,12 +59,18 @@ while True:
         paso=True
     if event is None :
         break
-    if event == "Evaluar" and paso  and tab_Ejecucuon.get_palabra()!="":
+    if event == "ev" and paso  and tab_Ejecucuon.get_palabra()!="":
         # if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
         if True:
-            Jugador1.Actualizar_Puntaje(AV.PuntosPalabra(tab_Ejecucuon))
+            puntos = AV.PuntosPalabra(tab_Ejecucuon)
+            palabra = tab_Ejecucuon.get_palabra()
+            total = (palabra + ' ' + str(puntos))
+            lista_total_persona.append(total)
+
+            Jugador1.Actualizar_Puntaje(puntos)
             AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
             print(Jugador1.get_puntos_jugador())
+            window['lista_persona'].update(values = lista_total_persona)
         else:
             AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
         Jugador1.FinTurno()
@@ -64,10 +83,16 @@ while True:
         maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
         maquina.fin_turno()
         print("no quede en bucle infinito")
+        puntos_maquina = maquina.get_puntos_jugador()
+        palabra_y_puntaje_maquina = letrita[1] + ' ' +str(puntos_maquina)
+        lista_total_maquina.append(letrita[1])
+        window['lista_maquina'].update(values = lista_total_maquina)
+        continue
+    if event == 'ev' and tab_Ejecucuon.get_palabra()=='':
         continue
     if event=="inst":
         layout = [
-            [sg.Image(r'giphy.gif',key="lu")],
+            [sg.Image(r'giphy.gif')],
             [sg.Button("ok",key="ok")]
          ]
         win=sg.Window("Instrucciones").Layout(layout)

@@ -34,13 +34,15 @@ def tablero(jugador,tab_Ejecucuon):
     button = lambda name : sg.Button(name,button_color=color_button,size=tam_button)
     sg.theme('Darkbrown5')
     # DarkTeal10
-    columna_1 = [ [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
+    columna_2 = [ [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 
     [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6"),sg.Text("                               "),sg.Button("Paso Turno",button_color=('black','#ABB2B9'),size=tamm,key="paso")],
-    [sg.Button("Evaluar",button_color=('black','#ABB2B9')),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'))]]
-    columna_2 = [ [sg.Text('TIEMPO')],
-    [sg.Text('PUNTAJE:'), sg.Text("",key="texto")],[ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ]
+    [sg.Button("Evaluar",button_color=('black','#ABB2B9'),key='ev'),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'))]]
+    columna_1 = [ [sg.Text('TIEMPO')],[sg.Text(size=(8,2), font=('Helvetica', 20), key ='tiempo')],
+    [sg.Text('PUNTAJE:'), sg.Text("",key="texto")],[ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ],
+    [sg.Text('MAQUINA')],[sg.Listbox([''],key='lista_maquina',size=(20,10))],
+    [sg.Text('PERSONA')],[sg.Listbox([''],key='lista_persona',size=(20,10))]
 ]
     columna_3 = [[sg.Text('FICHAS')],
                  [botonc("¿?","1",True),botonc("¿?","2",True),botonc("¿?","3",True),botonc("¿?","4",True),botonc("¿?","5",True),botonc("¿?","6",True),botonc("¿?","7",True),botonc("¿?","8",True),botonc("¿?","9",True)],

@@ -12,8 +12,6 @@ casos para hacer :
   2- poder desSelecioanr el  boton a cambiar y el boton a poner palabra en tablero
   3- puntaje_letra
   4-guardar partida
-  5-list box q liste las palabras quien la puso y puntaje en orden
   6- tiempo
   7- hacer 2 tableros nuevos
-  8- acomodar dificultad de la maquina al reves 
   9- redactar Instrucciones
