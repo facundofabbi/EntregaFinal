@@ -4,6 +4,7 @@ from random import choice
 import json
 tam1=8,2
 tam=3,2
+tamm=9,2
 tamanio=4,2
 Check_delete = lambda x,y,g : g.TKCanvas.delete(x * tam_celda + 12, y * tam_celda + 11)
 Check_box = lambda x,y,g,matriz : g.TKCanvas.itemconfig(matriz[y][x],fill="red")
@@ -31,11 +32,12 @@ def tablero(jugador,tab_Ejecucuon):
     tam_button = 17,5
     tamanio=4,2
     button = lambda name : sg.Button(name,button_color=color_button,size=tam_button)
-    sg.theme('DarkTeal10')
+    sg.theme('Darkbrown5')
+    # DarkTeal10
     columna_1 = [ [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 
-    [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6")],
+    [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6"),sg.Text("                               "),sg.Button("Paso Turno",button_color=('black','#ABB2B9'),size=tamm,key="paso")],
     [sg.Button("Evaluar",button_color=('black','#ABB2B9')),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'))]]
     columna_2 = [ [sg.Text('TIEMPO')],
     [sg.Text('PUNTAJE:'), sg.Text("",key="texto")],[ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ]
@@ -52,7 +54,7 @@ def tablero(jugador,tab_Ejecucuon):
                 [botonc("¿?","73",True),botonc("¿?","74",True),botonc("¿?","75",True),botonc("¿?","76",True),botonc("¿?","77",True),botonc("¿?","78",True),botonc("¿?","79",True),botonc("¿?","80",True),botonc("¿?","81",True)],
                 [botonc("¿?","82",True),botonc("¿?","83",True),botonc("¿?","84",True),botonc("¿?","85",True),botonc("¿?","86",True),botonc("¿?","87",True),botonc("¿?","88",True),botonc("¿?","89",True)],
                 [sg.Text('')],
-                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#10CF9E",change_submits=True, drag_submits=False),sg.Text('Fichas usadas.')],
+                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#092F50",change_submits=True, drag_submits=False),sg.Text('Fichas usadas.')],
                 [sg.Text('')],
                 [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#044880",change_submits=True, drag_submits=False),sg.Text('Fichas disponibles.'),sg.Text('')],
                 [sg.Text('                                                       '),sg.Text(''),sg.Text(''),sg.Text(''),sg.Button("Instrucciones",button_color=("white","#0D4E83"),key="inst")]]

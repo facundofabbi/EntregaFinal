@@ -154,12 +154,14 @@ def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
         key= r.choice(mb)
         ab.agregar_deshabilitado(key)
         ab.sacar_llave(key)
-        window.FindElement(key).Update(button_color=('black','#10CF9E'))
+        window.FindElement(key).Update(button_color=('black','#092F50'))
     ab.set_cant(cant)
     lista_leras=ab.get_keys()
     for i in lista_leras:
         window.FindElement(i).Update(disabled=False)
         window.FindElement(i).Update(button_color=('white','#07589B'))
+        # (button_color=('black','#FEEFBA'))
+        # (button_color=('white','#07589B'))
     bucle_de_cambio_letras(cambio,lista_leras,window)
     for i in lista_leras:
         window.FindElement(i).Update(disabled=True)
@@ -172,6 +174,7 @@ def bucle_de_cambio_letras(cambio,lista_keys,window):
         if event in lista_keys:
             cant=cant-1
             window.FindElement(event).Update(cambio[cant])
+            window.FindElement(event).Update(button_color=('black','#FEEFBA'))
             lista1.append(event)
         if cant<=0:
             break

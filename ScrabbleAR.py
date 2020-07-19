@@ -27,16 +27,28 @@ g=tupla[1]
 segundaletra=False
 ab=actualizar_columna.columna(window)
 num=1
-
+paso=True
 while True:
     event, values = window.Read()
     print(values)
     print(event)
+    if event=="paso":
+        paso=False
+        letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
+        print("encotnre esta letra:   "+letrita[0])
+        print(maquina.get_palabra())
+        maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+        maquina.fin_turno()
+        continue
+
+
+    else :
+        paso=True
     if event is None :
         break
-    if event == "Evaluar":
-        if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
-        # if True:
+    if event == "Evaluar" and paso  and tab_Ejecucuon.get_palabra()!="":
+        # if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+        if True:
             Jugador1.Actualizar_Puntaje(AV.PuntosPalabra(tab_Ejecucuon))
             AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
             print(Jugador1.get_puntos_jugador())
@@ -54,7 +66,35 @@ while True:
         print("no quede en bucle infinito")
         continue
     if event=="inst":
-        sg.popup('aca pongo instrucciones')
+        layout = [
+            [sg.Image(r'giphy.gif',key="lu")],
+            [sg.Button("ok",key="ok")]
+         ]
+        win=sg.Window("Instrucciones").Layout(layout)
+        while True :
+
+            e,v=win.read()
+            # sg.Image.update_animation_no_buffering(r'giphy.gif')
+            # win.FindElement("lu").update_animation_no_buffering('giphy.gif')
+            if e== None:
+                break
+            if e=="ok":
+                break
+        win.close()
+        # sg.popup_animated("giphy.gif",
+        # message=None,
+        # background_color=None,
+        # text_color=None,
+        # font=None,
+        # no_titlebar=True,
+        # grab_anywhere=True,
+        # keep_on_top=True,
+        # location=(None, None),
+        # alpha_channel=None,
+        # time_between_frames=0,
+        # transparent_color=None,
+        # title="",
+        # icon=None)
         continue
     if event == "Cambio Letras":
         window.FindElement(event).Update("¡Presioname luego de selecionar todas tus letras a cambiar!.")

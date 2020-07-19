@@ -21,7 +21,7 @@ class columna:
             dato=r.choice(self._muchosbotones)
             self.sacar_llave(dato)
             self.agregar_deshabilitado(dato)
-            window.FindElement(dato).Update(button_color=('black','#10CF9E'))
+            window.FindElement(dato).Update(button_color=('black','#092F50'))
 
     def get_keys(self):
         return self._muchosbotones
