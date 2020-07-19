@@ -213,26 +213,30 @@ class Maquinola(Padre):
     def buscarEn(self,nombre):
         for palabra in nombre:
             ya_usadas=[]
+            atril_a_usar=self.get_atril().copy()
             sirve=True
+            palabra=palabra.upper()
             for i in palabra:
-                if i.upper() in super().get_atril() and not i in ya_usadas:
+                if i in atril_a_usar:
                     ya_usadas.append(i)
+                    atril_a_usar.remove(i)
                 else:
                     sirve=False
-            if sirve and len(palabra)>3:
-                nuevo = super().BuscarEnLaBolsa(len(ya_usadas))
-                for letra in super().get_atril():
+            if sirve and len(palabra)>1:
+                nuevo = self.BuscarEnLaBolsa(len(ya_usadas))
+                for letra in self.get_atril():
                     for i in ya_usadas:
                         if letra == i:
                             ya_usadas.remove(i)
-                            super().set_remove_atril(letra)
+                            self.set_remove_atril(letra)
                 for i in nuevo:
-                    super().set_agregar_atril(i)
+                    self.set_agregar_atril(i)
                 break
         if sirve:
             return (palabra,True,ya_usadas)
         else:
             return("",False,[])
+
 
     def get_palabra(self):
         return self._palabra
@@ -262,9 +266,7 @@ class Maquinola(Padre):
                 if k in listaDeLetrasEnElTablero:
                     letra=k
                     break
-            for k in tupla[0]:
-                TE.set_lista_de_letras_en_tablero(k)
-
         self._palabra=tupla[0]
         super().set_letra(letra)
-        return letra
+        palabra=tupla[0]
+        return letra,palabra

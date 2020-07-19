@@ -2,8 +2,8 @@ import PySimpleGUI as sg
 from string import ascii_uppercase as up
 from random import choice
 import json
-
-
+tam1=8,2
+tam=3,2
 tamanio=4,2
 Check_delete = lambda x,y,g : g.TKCanvas.delete(x * tam_celda + 12, y * tam_celda + 11)
 Check_box = lambda x,y,g,matriz : g.TKCanvas.itemconfig(matriz[y][x],fill="red")
@@ -19,6 +19,7 @@ def Check_boton(x,window):
 def Uncheck_boton(x,window):
     window.FindElement(x).Update(button_color=('black','#FEEFBA'))
 botonb = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key)
+botonc = lambda name,key,booleanito : sg.Button(button_text=name,button_color=('black','#044880'),size=tam,disabled=booleanito,key=key)
 
 
 def tablero(jugador,tab_Ejecucuon):
@@ -39,9 +40,29 @@ def tablero(jugador,tab_Ejecucuon):
     columna_2 = [ [sg.Text('TIEMPO')],
     [sg.Text('PUNTAJE:'), sg.Text("",key="texto")],[ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ]
 ]
+    columna_3 = [[sg.Text('FICHAS')],
+                 [botonc("¿?","1",True),botonc("¿?","2",True),botonc("¿?","3",True),botonc("¿?","4",True),botonc("¿?","5",True),botonc("¿?","6",True),botonc("¿?","7",True),botonc("¿?","8",True),botonc("¿?","9",True)],
+                [botonc("¿?","10",True),botonc("¿?","11",True),botonc("¿?","12",True),botonc("¿?","13",True),botonc("¿?","14",True),botonc("¿?","15",True),botonc("¿?","16",True),botonc("¿?","17",True),botonc("¿?","18",True)],
+                 [botonc("¿?","19",True),botonc("¿?","20",True),botonc("¿?","21",True),botonc("¿?","22",True),botonc("¿?","23",True),botonc("¿?","24",True),botonc("¿?","25",True),botonc("¿?","26",True),botonc("¿?","27",True)],
+                [botonc("¿?","28",True),botonc("¿?","29",True),botonc("¿?","30",True),botonc("¿?","31",True),botonc("¿?","32",True),botonc("¿?","33",True),botonc("¿?","34",True),botonc("¿?","35",True),botonc("¿?","36",True)],
+                [botonc("¿?","37",True),botonc("¿?","38",True),botonc("¿?","39",True),botonc("¿?","40",True),botonc("¿?","41",True),botonc("¿?","42",True),botonc("¿?","43",True),botonc("¿?","44",True),botonc("¿?","45",True)],
+                [botonc("¿?","46",True),botonc("¿?","47",True),botonc("¿?","48",True),botonc("¿?","49",True),botonc("¿?","50",True),botonc("¿?","51",True),botonc("¿?","52",True),botonc("¿?","53",True),botonc("¿?","54",True)],
+                [botonc("¿?","55",True),botonc("¿?","56",True),botonc("¿?","57",True),botonc("¿?","58",True),botonc("¿?","59",True),botonc("¿?","60",True),botonc("¿?","61",True),botonc("¿?","62",True),botonc("¿?","63",True)],
+                [botonc("¿?","64",True),botonc("¿?","65",True),botonc("¿?","66",True),botonc("¿?","67",True),botonc("¿?","68",True),botonc("¿?","69",True),botonc("¿?","70",True),botonc("¿?","71",True),botonc("¿?","72",True)],
+                [botonc("¿?","73",True),botonc("¿?","74",True),botonc("¿?","75",True),botonc("¿?","76",True),botonc("¿?","77",True),botonc("¿?","78",True),botonc("¿?","79",True),botonc("¿?","80",True),botonc("¿?","81",True)],
+                [botonc("¿?","82",True),botonc("¿?","83",True),botonc("¿?","84",True),botonc("¿?","85",True),botonc("¿?","86",True),botonc("¿?","87",True),botonc("¿?","88",True),botonc("¿?","89",True)],
+                [sg.Text('')],
+                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#10CF9E",change_submits=True, drag_submits=False),sg.Text('Fichas usadas.')],
+                [sg.Text('')],
+                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#044880",change_submits=True, drag_submits=False),sg.Text('Fichas disponibles.'),sg.Text('')],
+                [sg.Text('                                                       '),sg.Text(''),sg.Text(''),sg.Text(''),sg.Button("Instrucciones",button_color=("white","#0D4E83"),key="inst")]]
+
+
+
+
     #Armo el diseño de la interface
     diseño = [
-    [sg.Column(columna_1), sg.Column(columna_2)]
+    [sg.Column(columna_1), sg.Column(columna_2),sg.Column(columna_3)]
     ]
 
 

@@ -6,6 +6,7 @@ import InterfazGrafica as IG
 import ActualziarVentana as AV
 import TableroEnEjecucion as TE
 from JugadorMaquina import Maquinola
+import Actualizacion_Bolsa as actualizar_columna
 
 
 nivel=c.Configuracion()
@@ -24,7 +25,8 @@ tupla=IG.tablero(Jugador1,tab_Ejecucuon)
 window=tupla[0]
 g=tupla[1]
 segundaletra=False
-
+ab=actualizar_columna.columna(window)
+num=1
 
 while True:
     event, values = window.Read()
@@ -33,8 +35,8 @@ while True:
     if event is None :
         break
     if event == "Evaluar":
-        #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
-        if True:
+        if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+        # if True:
             Jugador1.Actualizar_Puntaje(AV.PuntosPalabra(tab_Ejecucuon))
             AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
             print(Jugador1.get_puntos_jugador())
@@ -45,14 +47,19 @@ while True:
         tab_Ejecucuon.FinTurno()
         segundaletra=False
         letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
-        print("encotnre esta letra:   "+letrita)
+        print("encotnre esta letra:   "+letrita[0])
         print(maquina.get_palabra())
-        maquina.evaluar_donde(tab_Ejecucuon,g,letrita)
+        maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
         maquina.fin_turno()
         print("no quede en bucle infinito")
         continue
+    if event=="inst":
+        sg.popup('aca pongo instrucciones')
+        continue
     if event == "Cambio Letras":
-        AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon)
+        window.FindElement(event).Update("¡Presioname luego de selecionar todas tus letras a cambiar!.")
+        window.FindElement(event).Update(button_color=('white','black'))
+        AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,ab)
         segundaletra=False
         continue
     if event == '_GRAPH_':
