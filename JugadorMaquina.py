@@ -12,7 +12,10 @@ class Maquinola(Padre):
     def __init__(self,turno=False):
         super().__init__(turno)
         self._palabra = ""
+        self._ID = 1
 
+    def get_id(self):
+        return self._ID
     def fin_turno(self):
         self._palabra = ""
         super().set_turno(False)
@@ -50,6 +53,7 @@ class Maquinola(Padre):
     def poner_palabra_x(self,x,y,tab,g):
         pal=self._palabra
         for i in pal:
+            tab.chequeroDuplica(x,y,i)
             tab.EscribirEnTablero(x,y,g,i)
             x=x+1
 
@@ -57,6 +61,7 @@ class Maquinola(Padre):
     def poner_palabra_y(self,x,y,tab,g):
         pal=self._palabra
         for i in pal:
+            tab.chequeroDuplica(x,y,i)
             tab.EscribirEnTablero(x,y,g,i)
             y=y+1
 
@@ -153,25 +158,49 @@ class Maquinola(Padre):
         x=x-len(primerMitad)
         if x>=0:
             for i in range(len(primerMitad)):
+                tab_ejecucion.chequeroDuplica(x,y,i)
                 tab_ejecucion.EscribirEnTablero(x,y,g,primerMitad[i])
                 x=x+1
             x=x+1
             for i in range(len(segundoMitad)):
+                tab_ejecucion.chequeroDuplica(x,y,i)
                 tab_ejecucion.EscribirEnTablero(x,y,g,segundoMitad[i])
                 x=x+1
     def poner_palabra_y_cruzada(self,tab_ejecucion,primerMitad,segundoMitad,x,y,g):
         pal=self._palabra
         cant=len(pal)
         y=y-len(primerMitad)
-        if x>=0:
+        if y>=0:
             for i in range(len(primerMitad)):
+                tab_ejecucion.chequeroDuplica(x,y,i)
                 tab_ejecucion.EscribirEnTablero(x,y,g,primerMitad[i])
                 y=y+1
             y=y+1
             for i in range(len(segundoMitad)):
+                tab_ejecucion.chequeroDuplica(x,y,i)
                 tab_ejecucion.EscribirEnTablero(x,y,g,segundoMitad[i])
                 y=y+1
-
+    def PuntosPalabra_Maquina(self,palabra,tab):
+        pts=0
+        archivo= open("puntaje_letras.json","r")
+        dicc1=json.load(archivo)
+        archivo.close()
+        lista=tab.get_duplica()
+        lista1=tab.get_triplica()
+        for i in palabra:
+            num=dicc1[i]
+            num=num[0]
+            if i in lista:
+                num=num*2
+            if i in lista1:
+                num=num*3
+            pts+=num
+        return pts
+    def Actualizar_Puntaje(self,AV,palabra,tab):
+        puntos_maquina = self.PuntosPalabra_Maquina(palabra,tab)
+        palabra_y_puntaje_maquina = palabra + ' ' +str(puntos_maquina)
+        self._puntaje_total = self._puntaje_total + puntos_maquina
+        return palabra_y_puntaje_maquina
 
 
 

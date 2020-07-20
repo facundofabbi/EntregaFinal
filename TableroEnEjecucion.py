@@ -43,6 +43,8 @@ class Turno:
         self._palabra=""
         self._id_usados_en_turno=[]
         self._key_usadas=[]
+        self._duplica_palabra =[]
+        self._triplica_palabra = []
     def set_palabra(self,letra):
         self._palabra+=letra
     def get_llaves(self):
@@ -130,6 +132,8 @@ class Turno:
         return self._lista_de_letras_en_tablero
     def get_coordenadas_en_tablero(self,x,y):
         return self._coordenadas_en_tablero[x][y]
+    def set_coordenadas_en_tablero(self,x,y):
+        self._coordenadas_en_tablero[x][y]=""
     def get_coordenadas_en_tablero_lista(self):
         return self._coordenadas_en_tablero
 

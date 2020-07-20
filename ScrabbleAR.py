@@ -27,8 +27,6 @@ window=tupla[0]
 g=tupla[1]
 segundaletra=False
 ab=actualizar_columna.columna(window)
-num=1
-paso=True
 start_time = int(round(time.time()*100))
 tiempo_actual = 0
 lista_total_persona=[]
@@ -42,39 +40,33 @@ while True:
     print(values)
     print(event)
     if event=="paso":
-        paso=False
         letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
         print("encotnre esta letra:   "+letrita[0])
+
         print(maquina.get_palabra())
         maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+        AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
+        ab.set_cant(len(letrita[1]))
         maquina.fin_turno()
-        puntos_maquina = maquina.get_puntos_jugador()
-        palabra_y_puntaje_maquina = letrita[1] + ' ' +str(puntos_maquina)
-        lista_total_maquina.append(letrita[1])
-        window['lista_maquina'].update(values = lista_total_maquina)
+        tab_Ejecucuon.FinTurno()
+        lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
+        AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
         continue
-
-
-    else :
-        paso=True
     if event is None :
         break
-    if event == "ev" and paso  and tab_Ejecucuon.get_palabra()!="":
-        # if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+    if event == "ev" and tab_Ejecucuon.get_palabra()!="":
+        #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
         if True:
-            puntos = AV.PuntosPalabra(tab_Ejecucuon)
             palabra = tab_Ejecucuon.get_palabra()
-            total = (palabra + ' ' + str(puntos))
-            lista_total_persona.append(total)
-
-            Jugador1.Actualizar_Puntaje(puntos)
+            lista_total_persona.append(Jugador1.Actualizar_Puntaje(AV,tab_Ejecucuon))
             AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
-            print(Jugador1.get_puntos_jugador())
-            window['lista_persona'].update(values = lista_total_persona)
+            tab_Ejecucuon.FinTurno()
+            AV.roleo_random_fichas(ab.get_keys(),window,len(palabra),ab)
+            ab.set_cant(len(palabra))
+            AV.VerPuntajeNuevo(lista_total_persona,window,Jugador1)
         else:
             AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
         Jugador1.FinTurno()
-        window.FindElement("texto").Update(Jugador1.get_puntos_jugador())
         tab_Ejecucuon.FinTurno()
         segundaletra=False
         letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
@@ -84,9 +76,11 @@ while True:
         maquina.fin_turno()
         print("no quede en bucle infinito")
         puntos_maquina = maquina.get_puntos_jugador()
-        palabra_y_puntaje_maquina = letrita[1] + ' ' +str(puntos_maquina)
-        lista_total_maquina.append(letrita[1])
-        window['lista_maquina'].update(values = lista_total_maquina)
+        lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
+        AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
+        tab_Ejecucuon.FinTurno()
+        AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
+        ab.set_cant(len(letrita[1]))
         continue
     if event == 'ev' and tab_Ejecucuon.get_palabra()=='':
         continue

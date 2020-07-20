@@ -6,10 +6,12 @@ class Jugador(Padre):
 
     def __init__(self,turno=False):
         super().__init__(turno)
-
+        self._ID=2
         self._Letras_Turno=[]  #ya use
         self._boton_seleccionado=False
 
+    def get_id(self):
+        return self._ID
     def FinTurno(self):
         self._Letras_Turno=[]
         super().set_turno(False)
@@ -26,7 +28,28 @@ class Jugador(Padre):
     def set_boton_seleccionado(self,booleano):
         self._boton_seleccionado=booleano
 
-
+    def PuntosPalabraJugador(self,tab_Ejecucuon):
+        pts=0
+        archivo= open("puntaje_letras.json","r")
+        dicc1=json.load(archivo)
+        archivo.close()
+        palabra=tab_Ejecucuon.get_palabra()
+        lista=tab_Ejecucuon.get_duplica()
+        lista1=tab_Ejecucuon.get_triplica()
+        for i in palabra:
+            num=dicc1[i]
+            num=num[0]
+            if i in lista:
+                num=num*2
+            if i in lista1:
+                num=num*3
+            pts+=num
+        return pts
+    def Actualizar_Puntaje(self,AV,tab):
+        puntos = self.PuntosPalabraJugador(tab)
+        palabra_y_puntaje = tab.get_palabra() + ' ' +str(puntos)
+        self._puntaje_total = self._puntaje_total + puntos
+        return palabra_y_puntaje
     def chequetoLetra(self,letra):
         archivo=open ("bolsa.json","r")
         datos=json.load(archivo)

@@ -80,6 +80,7 @@ def palabra_Invalida(tab_Ejecucuon,g,Jugador1,window):
         for i in id_delete:
             g.DeleteFigure(text_box[i[0]][i[1]])
             selected[i[0]][i[1]]=False
+            tab_Ejecucuon.set_coordenadas_en_tablero(i[0],i[1])
         for i in lista:
             InterfazGrafica.Uncheck_boton(i,window)
         tab_Ejecucuon.set_text_box(text_box)
@@ -103,23 +104,14 @@ def posicionValida(box_x,box_y,tab_Ejecucuon):
     return False
 
 
-def PuntosPalabra(tab_Ejecucuon):
-    pts=0
-    archivo= open("puntaje_letras.json","r")
-    dicc1=json.load(archivo)
-    archivo.close()
-    palabra=tab_Ejecucuon.get_palabra()
-    lista=tab_Ejecucuon.get_duplica()
-    lista1=tab_Ejecucuon.get_triplica()
-    for i in palabra:
-        num=dicc1[i]
-        num=num[0]
-        if i in lista:
-            num=num*2
-        if i in lista1:
-            num=num*3
-        pts+=num
-    return pts
+
+def VerPuntajeNuevo(lista_total_maquina,window,objeto):
+    if objeto.get_id() ==1:
+        window['lista_maquina'].update(values = lista_total_maquina)
+        window['puntaje_maquina'].Update(objeto.get_puntaje_total())
+    else:
+        window['lista_persona'].update(values = lista_total_maquina)
+        window['puntaje_persona'].Update(objeto.get_puntaje_total())
 
 
 def EvaluarPalabra(palabra,nivel):
@@ -146,22 +138,22 @@ def EvaluarPalabra(palabra,nivel):
 
 
 
-def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
-    num=ab.get_cant()
-    mb=ab.get_keys()
-    cant=cant-num
+def roleo_random_fichas(mb,window,cant,ab):
     for i in range(cant):
         key= r.choice(mb)
         ab.agregar_deshabilitado(key)
         ab.sacar_llave(key)
         window.FindElement(key).Update(button_color=('black','#092F50'))
+def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
+    num=ab.get_cant()
+    mb=ab.get_keys()
+    cant=cant-num
+    roleo_random_fichas(mb,window,cant,ab)
     ab.set_cant(cant)
     lista_leras=ab.get_keys()
     for i in lista_leras:
         window.FindElement(i).Update(disabled=False)
         window.FindElement(i).Update(button_color=('white','#07589B'))
-        # (button_color=('black','#FEEFBA'))
-        # (button_color=('white','#07589B'))
     bucle_de_cambio_letras(cambio,lista_leras,window)
     for i in lista_leras:
         window.FindElement(i).Update(disabled=True)

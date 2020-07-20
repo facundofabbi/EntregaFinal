@@ -7,10 +7,12 @@ class Padre:
         self._atril = []
         self._turno = turno
         self._puntaje_Jugador=0
+        self._puntaje_total=0
         self._letra=""
 
-    def Actualizar_Puntaje(self,puntaje_nuevo):
-        self._puntaje_Jugador+=puntaje_nuevo
+
+    def get_puntaje_total(self):
+        return self._puntaje_total
 
     def get_puntos_jugador(self):
         return self._puntaje_Jugador
