@@ -10,7 +10,7 @@ def Configuracion():
     frame_layout = [
                   [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],
                   [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
-                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1))]
+                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida")]
                ]
     columna1 = [
              [sg.Frame('Configuración', frame_layout, font='Any 12', title_color='yellow')],
@@ -26,7 +26,17 @@ def Configuracion():
     windows = sg.Window("Scrabble").Layout(layout)
     event, values = windows.Read()
     tupla=()
-    if event != None or event != 'Salir':
+    ok=False
+    if event=="Reanudar partida":
+        ok=True
+        if values[0] == True:
+            tupla = ("Facil", 20)
+        if values[1] == True:
+            tupla = ("Medio",15)
+        if values[2] == True:
+            lista = [("VB",10),("JJ",10)]
+            tupla = choice(lista)
+    if event != None or event != 'Salir' and event!="Reanudar partida":
         if(event =='Iniciar'):
             if values[0] == True:
                 tupla = ("Facil", 20)
@@ -104,7 +114,8 @@ def Configuracion():
     archivo1 = open ('bolsa.json','w')
     json.dump(Cant_Letras,archivo1,indent=1)
     archivo.close()
-    return tupla
+
+    return tupla,ok
 
 if __name__ == '__main__':
      Configuracion()

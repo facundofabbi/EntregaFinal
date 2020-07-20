@@ -10,27 +10,40 @@ import Actualizacion_Bolsa as actualizar_columna
 import time
 
 
-nivel=c.Configuracion()
+todo=c.Configuracion()
+nivel=todo[0]
+ok_posponer=todo[1]
 Jugador1=Jugador(True)
 maquina = Maquinola(True)
 lista=Jugador1.BuscarEnLaBolsa(7)
 Jugador1.set_Atril(lista)
-
-
 lista=maquina.BuscarEnLaBolsa(7)
 maquina.set_Atril(lista)
-
-
 tab_Ejecucuon=TE.Turno()
 tupla=IG.tablero(Jugador1,tab_Ejecucuon)
 window=tupla[0]
 g=tupla[1]
+if ok_posponer:
+    lista_posponer=[]
+    print("cargando partidda.......")
+    archivo1 = open('posponerPartida.json','r')
+    lista_posponer=json.load(archivo1)
+    archivo1.close()
+    tab_Ejecucuon.set_coordenadas_en_tablero_lista(lista_posponer[1])
+    tab_Ejecucuon.set_selected(lista_posponer[2])
+    tab_Ejecucuon.set_matriz(lista_posponer[3])
+    tab_Ejecucuon.set_matrizMultiplica(lista_posponer[4])
+    tab_Ejecucuon.set_text_box(lista_posponer[0])
+    for x in range(0,15):
+        for y in range(0,15):
+            tab_Ejecucuon.EscribirEnTableroPosponer(x,y,g)
 segundaletra=False
 ab=actualizar_columna.columna(window)
 start_time = int(round(time.time()*100))
 tiempo_actual = 0
 lista_total_persona=[]
 lista_total_maquina=[]
+agrego_letra_del_tablero=   True
 while True:
     event, values = window.Read()
     tiempo_actual=int(round(time.time() * 100)) - start_time
@@ -51,10 +64,12 @@ while True:
         tab_Ejecucuon.FinTurno()
         lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
         AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
+        agrego_letra_del_tablero=   True
         continue
     if event is None :
         break
     if event == "ev" and tab_Ejecucuon.get_palabra()!="":
+        agrego_letra_del_tablero=   True
         #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
         if True:
             palabra = tab_Ejecucuon.get_palabra()
@@ -74,7 +89,6 @@ while True:
         print(maquina.get_palabra())
         maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
         maquina.fin_turno()
-        print("no quede en bucle infinito")
         puntos_maquina = maquina.get_puntos_jugador()
         lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
         AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
@@ -84,6 +98,18 @@ while True:
         continue
     if event == 'ev' and tab_Ejecucuon.get_palabra()=='':
         continue
+    if event == "Posponer":
+        lista_posponer=[]
+        archivo = open ('posponerPartida.json','w')
+        lista_posponer.append(tab_Ejecucuon.get_text_box())
+        lista_posponer.append(tab_Ejecucuon.get_coordenadas_en_tablero_lista())
+        lista_posponer.append(tab_Ejecucuon.get_selected())
+        lista_posponer.append(tab_Ejecucuon.get_matriz())
+        lista_posponer.append(tab_Ejecucuon.get_matrizMultiplica())
+        json.dump(lista_posponer,archivo)
+        archivo.close()
+        sg.popup("La partida sera pospueta para un futuro no muy lejano :D, anda a descansar y veni fresquito para seguire jugando")
+        window.close()
     if event=="inst":
         layout = [
             [sg.Image(r'giphy.gif')],
@@ -93,27 +119,11 @@ while True:
         while True :
 
             e,v=win.read()
-            # sg.Image.update_animation_no_buffering(r'giphy.gif')
-            # win.FindElement("lu").update_animation_no_buffering('giphy.gif')
             if e== None:
                 break
             if e=="ok":
                 break
         win.close()
-        # sg.popup_animated("giphy.gif",
-        # message=None,
-        # background_color=None,
-        # text_color=None,
-        # font=None,
-        # no_titlebar=True,
-        # grab_anywhere=True,
-        # keep_on_top=True,
-        # location=(None, None),
-        # alpha_channel=None,
-        # time_between_frames=0,
-        # transparent_color=None,
-        # title="",
-        # icon=None)
         continue
     if event == "Cambio Letras":
         window.FindElement(event).Update("¡Presioname luego de selecionar todas tus letras a cambiar!.")
@@ -129,10 +139,13 @@ while True:
         mouse2=mouse[1]-7
         box_x = mouse1//tab_Ejecucuon.get_tam_Celda()
         box_y = mouse2//tab_Ejecucuon.get_tam_Celda()
+        print(box_x)
+        print(box_y)
         if  box_x > 14 or box_y > 14:
             continue
         if Jugador1.get_boton_seleccionado(): # logica de boton
             if not segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y):
+                agrego_letra_del_tablero=AV.CrucePrimerLetra(letra,(box_x,box_y),tab_Ejecucuon)
                 tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 segundaletra=True
@@ -141,7 +154,7 @@ while True:
                 Jugador1.set_letra("")
                 Jugador1.set_boton_seleccionado(False)
                 continue
-            if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y):
+            if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y) :
                 tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
                 tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                 tab_Ejecucuon.set_posicionLetra1((box_x,box_y))

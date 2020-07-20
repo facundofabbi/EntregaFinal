@@ -8,6 +8,7 @@ class Turno:
         self._duplica_palabra=[]
         self._triplica_palabra=[]
         self._palabra=""
+        self._desbugeo=True
         self._id_usados_en_turno=[]
         self._key_usadas=[]
         self._matriz=[]
@@ -24,7 +25,12 @@ class Turno:
             self._selected.append([False]*15)
             self._text_box.append([""]*15)
             self._matrizMultiplica.append([0]*15)
-
+    def set_desbugeo(self):
+        self._desbugeo=False
+    def get_desbugeo(self):
+        return self._desbugeo
+    def set_palabra_TODA(self,pal):
+        self._palabra=pal
     def chequeo_selected(self,x,y):
         return self._selected[x][y]
     def get_tablero_booleano(self):
@@ -45,6 +51,7 @@ class Turno:
         self._key_usadas=[]
         self._duplica_palabra =[]
         self._triplica_palabra = []
+        self._desbugeo=True
     def set_palabra(self,letra):
         self._palabra+=letra
     def get_llaves(self):
@@ -109,7 +116,6 @@ class Turno:
         self._abajo=True
 
     def chequeroDuplica(self,x,y,letra):
-
         try:
             if self._Casilleros_Especiales[(x,y)]=="DP":
                 self._duplica_palabra.append(letra)
@@ -136,6 +142,13 @@ class Turno:
         self._coordenadas_en_tablero[x][y]=""
     def get_coordenadas_en_tablero_lista(self):
         return self._coordenadas_en_tablero
+    def set_coordenadas_en_tablero_lista(self,coordenadas_en_tablero_lista):
+        self._coordenadas_en_tablero=coordenadas_en_tablero_lista
+
+    def EscribirEnTableroPosponer(self,box_x,box_y,g):
+        letra=self.get_coordenadas_en_tablero(box_x,box_y)
+        print("ESTA ES LA LETRA",letra)
+        self._text_box[box_x][box_y] = g.DrawText(letra.upper(), (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
 
     def EscribirEnTablero(self,box_x,box_y,g,letra):
         if self._selected[box_x][box_y]==False:

@@ -89,17 +89,37 @@ def palabra_Invalida(tab_Ejecucuon,g,Jugador1,window):
 
 def posicionValida(box_x,box_y,tab_Ejecucuon):
     posicionLetra1=tab_Ejecucuon.get_posicionLetra1()
+    print("acaaaaaaaaaaaaa")
+    print(posicionLetra1)
     x=posicionLetra1[0]
     y=posicionLetra1[1]
+    if x==box_x and y+2==box_y and not tab_Ejecucuon.get_abajo() and tab_Ejecucuon.get_desbugeo() and  tab_Ejecucuon.get_coordenadas_en_tablero(box_x,y+1)!="":
+        tab_Ejecucuon.set_derecha()
+        tab_Ejecucuon.set_desbugeo()
+        l=tab_Ejecucuon.get_coordenadas_en_tablero(box_x,y+1)
+        tab_Ejecucuon.set_palabra(l)
+        return True
+    if box_x==x+2 and y==box_y and not tab_Ejecucuon.get_derecha() and tab_Ejecucuon.get_desbugeo()and tab_Ejecucuon.get_coordenadas_en_tablero(x+1,box_y)!="":
+        tab_Ejecucuon.set_abajo()
+        tab_Ejecucuon.set_desbugeo()
+        l=tab_Ejecucuon.get_coordenadas_en_tablero(x+1,box_y)
+        tab_Ejecucuon.set_palabra(l)
+        return True
     y=y+1
     if box_x==x and y==box_y and not tab_Ejecucuon.get_abajo() :
         tab_Ejecucuon.set_derecha()
+        # pal=tab_Ejecucuon.get_palabra()
+        # pal=pal[1:]
+        # tab_Ejecucuon.set_palabra_TODA(pal)
         return True
     else :
         y=y-1
         x=x+1
         if box_x==x and y==box_y and not tab_Ejecucuon.get_derecha() :
             tab_Ejecucuon.set_abajo()
+            # pal=tab_Ejecucuon.get_palabra()
+            # pal=pal[1:]
+            # tab_Ejecucuon.set_palabra_TODA(pal)
             return True
     return False
 
@@ -174,3 +194,17 @@ def bucle_de_cambio_letras(cambio,lista_keys,window):
             break
     for i in lista1:
         window.FindElement(i).Update("¿?")
+
+
+def CrucePrimerLetra(letra,pos,tab):
+    x=pos[0]
+    y=pos[1]
+    if tab.get_selected_posicion(x-1,y) and tab.get_selected_posicion(x+1,y)==False:
+        ant=tab.get_coordenadas_en_tablero(x-1,y)
+        tab.set_palabra(ant)
+        return True
+    else:
+        if tab.get_selected_posicion(x,y-1) and tab.get_selected_posicion(x,y+1)==False:
+            ant=tab.get_coordenadas_en_tablero(x,y-1)
+            tab.set_palabra(ant)
+            return True

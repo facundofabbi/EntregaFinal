@@ -10,14 +10,14 @@ class columna:
         "73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89"]
         self._deshabilitados=[]
         self._cant=0
-        self.sacar_primer_atril(window)
+        self.sacar_primer_atril(window,14)
     def set_cant(self,cont):
         self._cant=self._cant+cont
     def get_cant(self):
          return self._cant
 
-    def sacar_primer_atril(self,window):
-        for i in range (14):
+    def sacar_primer_atril(self,window,cant):
+        for i in range (cant):
             dato=r.choice(self._muchosbotones)
             self.sacar_llave(dato)
             self.agregar_deshabilitado(dato)
