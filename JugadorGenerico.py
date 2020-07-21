@@ -23,6 +23,9 @@ class Padre:
     def set_letra(self,l):
         self._letra=l
 
+    def set_puntaje_total(self,puntajetotal):
+        self._puntaje_total=puntajetotal
+
     def get_atril(self):
         return self._atril
 

@@ -20,7 +20,6 @@ def Check_boton(x,window):
 def Uncheck_boton(x,window):
     window.FindElement(x).Update(button_color=('black','#FEEFBA'))
 botonb = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key)
-botonMaquina = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key,disabled=True) #Boton de maquina deshabilitado
 botonc = lambda name,key,booleanito : sg.Button(button_text=name,button_color=('black','#044880'),size=tam,disabled=booleanito,key=key)
 
 
@@ -35,8 +34,7 @@ def tablero(jugador,tab_Ejecucuon):
     button = lambda name : sg.Button(name,button_color=color_button,size=tam_button)
     sg.theme('Darkbrown5')
     # DarkTeal10
-    columna_2 = [ [botonMaquina("","maquina0"),botonMaquina("","maquina1"),botonMaquina("","maquina2"),botonMaquina("","maquina3"),botonMaquina("","maquina4"),botonMaquina("","maquina5"),botonMaquina("","maquina6")],
-    [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
+    columna_2 = [ [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 
     [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6"),sg.Text("                               "),sg.Button("Paso Turno",button_color=('black','#ABB2B9'),size=tamm,key="paso")],

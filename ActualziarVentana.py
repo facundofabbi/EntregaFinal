@@ -89,7 +89,6 @@ def palabra_Invalida(tab_Ejecucuon,g,Jugador1,window):
 
 def posicionValida(box_x,box_y,tab_Ejecucuon):
     posicionLetra1=tab_Ejecucuon.get_posicionLetra1()
-    print("acaaaaaaaaaaaaa")
     print(posicionLetra1)
     x=posicionLetra1[0]
     y=posicionLetra1[1]
@@ -135,7 +134,6 @@ def VerPuntajeNuevo(lista_total_maquina,window,objeto):
 
 
 def EvaluarPalabra(palabra,nivel):
-    print(palabra)
     nivel=nivel.upper()
     pal=parse(palabra).split("/")
     aux=pal[1]
@@ -208,3 +206,60 @@ def CrucePrimerLetra(letra,pos,tab):
             ant=tab.get_coordenadas_en_tablero(x,y-1)
             tab.set_palabra(ant)
             return True
+
+
+
+def ReaundarPartida(g,window,maquina,Jugador1,tab_Ejecucuon,AB,jugador1):
+    try:
+        lista_posponer=[]
+        print("cargando partidda.......")
+        archivo11 = open('posponerPartida.json','r')
+        lista_posponer=json.load(archivo11)
+        archivo11.close()
+        tab_Ejecucuon.set_coordenadas_en_tablero_lista(lista_posponer[1])
+        tab_Ejecucuon.set_selected(lista_posponer[2])
+        tab_Ejecucuon.set_matriz(lista_posponer[3])
+        tab_Ejecucuon.set_matrizMultiplica(lista_posponer[4])
+        tab_Ejecucuon.set_text_box(lista_posponer[0])
+        for x in range(0,15):
+            for y in range(0,15):
+                tab_Ejecucuon.EscribirEnTableroPosponer(x,y,g)
+        VerPuntajeNuevo(lista_posponer[5],window,maquina)
+        VerPuntajeNuevo(lista_posponer[6],window,Jugador1)
+        AB.set_deshabilitados(lista_posponer[7])
+        AB.sacar_primer_atril(window,len(lista_posponer[7]))
+        archivo1 = open ('bolsa.json','w')
+        json.dump(lista_posponer[8],archivo1,indent=1)
+        archivo1.close()
+        jugador1.set_puntaje_total(lista_posponer[9])
+        maquina.set_puntaje_total(lista_posponer[10])
+        window["puntaje_persona"].update(lista_posponer[9])
+        window["puntaje_maquina"].update(lista_posponer[10])
+        jugador1.FinTurno()
+        maquina.fin_turno()
+        tab_Ejecucuon.FinTurno()
+        return lista_posponer[5],lista_posponer[6]
+    except:
+         sg.popup("No se puede cargar la partida ya q no se a guardado una nunca. Disculpe las molestias")
+
+def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina):
+    lista_posponer=[]
+    lista_posponer.append(tab_Ejecucuon.get_text_box())
+    lista_posponer.append(tab_Ejecucuon.get_coordenadas_en_tablero_lista())
+    lista_posponer.append(tab_Ejecucuon.get_selected())
+    lista_posponer.append(tab_Ejecucuon.get_matriz())
+    lista_posponer.append(tab_Ejecucuon.get_matrizMultiplica())
+    lista_posponer.append(lista_total_maquina)
+    lista_posponer.append(lista_total_persona)
+    lista_posponer.append(AB.get_deshabilitados())
+    archivo1 = open ('bolsa.json','r')
+    bolsa=json.load(archivo1)
+    print(bolsa)
+    archivo1.close()
+    lista_posponer.append(bolsa)
+    lista_posponer.append(jugador1.get_puntaje_total())
+    lista_posponer.append(maquina.get_puntaje_total())
+    archivo = open ('posponerPartida.json','w')
+    json.dump(lista_posponer,archivo)
+    archivo.close()
+    sg.popup("La partida sera pospueta para un futuro no muy lejano :D, anda a descansar y veni fresquito para seguire jugando")
