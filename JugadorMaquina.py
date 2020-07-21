@@ -2,6 +2,7 @@ from pattern.es import spelling
 from pattern.es import lexicon
 from pattern.es import verbs
 from pattern.es import parse
+import time
 from random import choice
 import random
 import json
@@ -271,6 +272,7 @@ class Maquinola(Padre):
         return self._palabra
 
     def EncontrarPalabra(self,nivel,TE):
+        #time.sleep(2)
         listaDeLetrasEnElTablero=TE.get_lista_de_letras_en_tablero()
         tupla=("",False,[])
         archivo=open ("adjetivos.json","r")

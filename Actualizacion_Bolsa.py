@@ -15,6 +15,8 @@ class columna:
         self._cant=self._cant+cont
     def get_cant(self):
          return self._cant
+    def get_muchosbotones(self):
+        return self._muchosbotones
 
     def sacar_primer_atril(self,window,cant):
         for i in range (cant):

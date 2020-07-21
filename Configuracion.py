@@ -45,6 +45,7 @@ def Configuracion():
             if values[2] == True:
                 lista = [("VB",10),("JJ",10)]
                 tupla = choice(lista)
+
     windows.close()
     puntaje =  {        "A":[1],
                         "E":[1],
@@ -115,7 +116,9 @@ def Configuracion():
     json.dump(Cant_Letras,archivo1,indent=1)
     archivo.close()
 
-    return tupla,ok
+    if event =='Salir' or event==None:
+        return tupla,ok,False
+    return tupla,ok,True
 
 if __name__ == '__main__':
      Configuracion()

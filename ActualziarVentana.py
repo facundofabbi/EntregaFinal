@@ -16,8 +16,11 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna):
         llavesTurno = []
         llavess=[]
         oki=True
+        okas=True
         # InterfazGrafica.Check_button(event,window)
-        while True:
+        print(len(actualizar_columna.get_muchosbotones()))
+        print(tab_Ejecucuon.get_key_usadas())
+        while(len(actualizar_columna.get_muchosbotones())>len(llavesTurno)):
             event,values=window.Read()
             if event!='_GRAPH_' and event !="Evaluar":
                 if event in Llaves and not event in llavesTurno:
@@ -26,6 +29,7 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna):
                     InterfazGrafica.Check_boton(event,window)
                     llavess.append(event)
                 if  event== "Cambio Letras":
+                    okas=False
                     window.FindElement(event).Update("Ahora elige tus nuevas fichas")
                     window.FindElement(event).Update(button_color=('white','black'))
                     # InterfazGrafica.Uncheck_button(event,window)
@@ -35,6 +39,9 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna):
                     break
             else:
                 continue
+        if   okas:
+            window.FindElement("Cambio Letras").Update("Selecciono la maxima cantidad de fichas disponibles")
+            window.FindElement("Cambio Letras").Update(button_color=('white','black'))
         if oki:
             lista=Jugador1.CambioLetras(cambio)
             llet=tab_Ejecucuon.get_lista_de_letras_en_tablero()
@@ -157,11 +164,15 @@ def EvaluarPalabra(palabra,nivel):
 
 
 def roleo_random_fichas(mb,window,cant,ab):
-    for i in range(cant):
-        key= r.choice(mb)
-        ab.agregar_deshabilitado(key)
-        ab.sacar_llave(key)
-        window.FindElement(key).Update(button_color=('black','#092F50'))
+    try:
+        for i in range(cant):
+            key= r.choice(mb)
+            ab.agregar_deshabilitado(key)
+            ab.sacar_llave(key)
+            window.FindElement(key).Update(button_color=('black','#092F50'))
+    except:
+        sg.popup("chicos aca se termia el programa dsp lo vemos")
+        #window.close()
 def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
     num=ab.get_cant()
     mb=ab.get_keys()

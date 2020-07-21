@@ -147,7 +147,6 @@ class Turno:
 
     def EscribirEnTableroPosponer(self,box_x,box_y,g):
         letra=self.get_coordenadas_en_tablero(box_x,box_y)
-        print("ESTA ES LA LETRA",letra)
         self._text_box[box_x][box_y] = g.DrawText(letra.upper(), (box_x * self._Tam_Celda+14, box_y * self._Tam_Celda +14))
 
     def EscribirEnTablero(self,box_x,box_y,g,letra):
