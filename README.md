@@ -12,10 +12,14 @@ casos para hacer :
   2- poder desSelecioanr el  boton a cambiar y el boton a poner palabra en tablero
   3- puntaje_letra
   4-guardar partida
+  5-El programa funciona en Windows y GNU/Linux
   6- tiempo
   7- hacer 2 tableros nuevos
-  9- redactar Instrucciones
+  8-Se incluyó el archivo leer.txt o readme con los datos correspondientes: el nombre de los integrantes, la forma de ejecutar cada aplicación y cualquier consideración especial para su ejecución
+  9- Se incluye un botón para terminar la partida
+  10- Se incluye un componente que muestra el tiempo de la partida
 
-  Problema cuando no quedan Letras
+
   Siempre quedan letras para usar en la bolsa , quedan 12 exactamente
-  
+
+  ARREGLAR PASO TURNO HABIENDO PUESTO UNA LETRA EN EL TRABLERO

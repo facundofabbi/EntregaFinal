@@ -4,12 +4,17 @@ from JugadorGenerico import Padre
 
 class Jugador(Padre):
 
-    def __init__(self,turno=False):
+    def __init__(self,nom,turno=False):
         super().__init__(turno)
+        self._nombre=nom
         self._ID=2
         self._Letras_Turno=[]  #ya use
         self._boton_seleccionado=False
 
+    def get_nombre(self):
+        return self._nombre
+    def set_nombre(self,nombre):
+        self._nombre=nombre
     def get_id(self):
         return self._ID
     def FinTurno(self):

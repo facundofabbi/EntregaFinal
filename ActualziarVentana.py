@@ -164,14 +164,14 @@ def EvaluarPalabra(palabra,nivel):
 
 
 def roleo_random_fichas(mb,window,cant,ab):
-    try:
+    #try:
         for i in range(cant):
             key= r.choice(mb)
             ab.agregar_deshabilitado(key)
             ab.sacar_llave(key)
             window.FindElement(key).Update(button_color=('black','#092F50'))
-    except:
-        sg.popup("chicos aca se termia el programa dsp lo vemos")
+    #except:
+        #sg.popup("chicos aca se termia el programa dsp lo vemos")
         #window.close()
 def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
     num=ab.get_cant()
@@ -274,3 +274,19 @@ def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jug
     json.dump(lista_posponer,archivo)
     archivo.close()
     sg.popup("La partida sera pospueta para un futuro no muy lejano :D, anda a descansar y veni fresquito para seguire jugando")
+
+def Top10():
+    archivo = open('TopJugadores.json','r')
+    lista1=json.load(archivo)
+    archivo.close()
+    sg.theme('DarkAmber')
+    layout = [ [sg.Listbox(lista1,key='lista_maquina',size=(20,10))],
+    [sg.Button("Ok",size=(10,2))]]
+    w = sg.Window('Top 10').Layout(layout)
+    while True:
+        event,values = w.read()
+        if event == "Ok":
+            break
+        if event == None:
+            break
+    w.close()

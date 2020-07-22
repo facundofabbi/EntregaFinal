@@ -2,15 +2,16 @@ import PySimpleGUI as sg
 from pattern.es import verbs
 from random import choice
 import json
+import ActualziarVentana as av
 
 def Configuracion():
     sg.theme('DarkAmber')
     #self.main_container = gui.VBox(width=300, height=300)
 
     frame_layout = [
-                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],
+                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input(key='nombre')],
                   [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
-                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida")]
+                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida"),sg.Button('Top10',size=(10,1))]
                ]
     columna1 = [
              [sg.Frame('Configuración', frame_layout, font='Any 12', title_color='yellow')],
@@ -23,21 +24,14 @@ def Configuracion():
 ]
 
 
+
     windows = sg.Window("Scrabble").Layout(layout)
-    event, values = windows.Read()
-    tupla=()
-    ok=False
-    if event=="Reanudar partida":
-        ok=True
-        if values[0] == True:
-            tupla = ("Facil", 20)
-        if values[1] == True:
-            tupla = ("Medio",15)
-        if values[2] == True:
-            lista = [("VB",10),("JJ",10)]
-            tupla = choice(lista)
-    if event != None or event != 'Salir' and event!="Reanudar partida":
-        if(event =='Iniciar'):
+    while True:
+        event, values = windows.Read()
+        tupla=()
+        ok=False
+        if event=="Reanudar partida":
+            ok=True
             if values[0] == True:
                 tupla = ("Facil", 20)
             if values[1] == True:
@@ -45,8 +39,28 @@ def Configuracion():
             if values[2] == True:
                 lista = [("VB",10),("JJ",10)]
                 tupla = choice(lista)
+            break
 
-    windows.close()
+        if event == 'Top10':
+            av.Top10()
+            print(values['nombre'])
+            continue
+
+        if event != None or event != 'Salir' and event!="Reanudar partida":
+            if(event =='Iniciar'):
+                if values[0] == True:
+                    tupla = ("Facil", 20)
+                if values[1] == True:
+                    tupla = ("Medio",15)
+                if values[2] == True:
+                    lista = [("VB",10),("JJ",10)]
+                    tupla = choice(lista)
+                break
+
+        if event =='Salir' or event==None:
+            return tupla,ok,False
+
+
     puntaje =  {        "A":[1],
                         "E":[1],
                         "O":[1],
@@ -115,10 +129,7 @@ def Configuracion():
     archivo1 = open ('bolsa.json','w')
     json.dump(Cant_Letras,archivo1,indent=1)
     archivo.close()
-
-    if event =='Salir' or event==None:
-        return tupla,ok,False
-    return tupla,ok,True
-
+    windows.close()
+    return tupla,ok,True,values['nombre']
 if __name__ == '__main__':
      Configuracion()

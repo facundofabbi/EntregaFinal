@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 from string import ascii_uppercase as up
 from random import choice
 import json
+
 tam1=8,2
 tam=3,2
 tamm=9,2
@@ -19,6 +20,7 @@ def Check_boton(x,window):
     window.FindElement(x).Update(button_color=('black','#FF8453'))
 def Uncheck_boton(x,window):
     window.FindElement(x).Update(button_color=('black','#FEEFBA'))
+botonMaquina = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key,disabled = True)
 botonb = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key)
 botonc = lambda name,key,booleanito : sg.Button(button_text=name,button_color=('black','#044880'),size=tam,disabled=booleanito,key=key)
 
@@ -33,8 +35,8 @@ def tablero(jugador,tab_Ejecucuon):
     tamanio=4,2
     button = lambda name : sg.Button(name,button_color=color_button,size=tam_button)
     sg.theme('Darkbrown5')
-    # DarkTeal10
-    columna_2 = [ [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
+    columna_2 = [ [botonMaquina('','Maquina0'),botonMaquina('','Maquina1'),botonMaquina('','Maquina2'),botonMaquina('','Maquina3'),botonMaquina('','Maquina4'),botonMaquina('','Maquina5'),botonMaquina('','Maquina6')],
+    [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 
     [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6"),sg.Text("                               "),sg.Button("Paso Turno",button_color=('black','#ABB2B9'),size=tamm,key="paso")],
@@ -42,7 +44,7 @@ def tablero(jugador,tab_Ejecucuon):
     columna_1 = [ [sg.Text('TIEMPO')],[sg.Text(size=(8,2), font=('Helvetica', 20), key ='tiempo')],
     [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ],
     [sg.Text('MAQUINA'),sg.Text(size=(4,0),key="puntaje_maquina")],[sg.Listbox([''],key='lista_maquina',size=(20,10))],
-    [sg.Text('PERSONA'),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
+    [sg.Text(jugador.get_nombre()),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
     columna_3 = [[sg.Text('FICHAS')],
                  [botonc("¿?","1",True),botonc("¿?","2",True),botonc("¿?","3",True),botonc("¿?","4",True),botonc("¿?","5",True),botonc("¿?","6",True),botonc("¿?","7",True),botonc("¿?","8",True),botonc("¿?","9",True)],
                 [botonc("¿?","10",True),botonc("¿?","11",True),botonc("¿?","12",True),botonc("¿?","13",True),botonc("¿?","14",True),botonc("¿?","15",True),botonc("¿?","16",True),botonc("¿?","17",True),botonc("¿?","18",True)],
