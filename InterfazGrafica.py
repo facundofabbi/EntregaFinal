@@ -35,7 +35,7 @@ def tablero(jugador,tab_Ejecucuon):
     tamanio=4,2
     button = lambda name : sg.Button(name,button_color=color_button,size=tam_button)
     sg.theme('Darkbrown5')
-    columna_2 = [ [botonMaquina('','Maquina0'),botonMaquina('','Maquina1'),botonMaquina('','Maquina2'),botonMaquina('','Maquina3'),botonMaquina('','Maquina4'),botonMaquina('','Maquina5'),botonMaquina('','Maquina6')],
+    columna_2 = [ [botonMaquina('','-7'),botonMaquina('','-1'),botonMaquina('','-2'),botonMaquina('','-3'),botonMaquina('','-4'),botonMaquina('','-5'),botonMaquina('','-6')],
     [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 
@@ -44,7 +44,7 @@ def tablero(jugador,tab_Ejecucuon):
     columna_1 = [ [sg.Text('TIEMPO')],[sg.Text(size=(8,2), font=('Helvetica', 20), key ='tiempo')],
     [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ],
     [sg.Text('MAQUINA'),sg.Text(size=(4,0),key="puntaje_maquina")],[sg.Listbox([''],key='lista_maquina',size=(20,10))],
-    [sg.Text(jugador.get_nombre()),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
+    [sg.Text(jugador.get_nombre(),key="n_j"),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
     columna_3 = [[sg.Text('FICHAS')],
                  [botonc("¿?","1",True),botonc("¿?","2",True),botonc("¿?","3",True),botonc("¿?","4",True),botonc("¿?","5",True),botonc("¿?","6",True),botonc("¿?","7",True),botonc("¿?","8",True),botonc("¿?","9",True)],
                 [botonc("¿?","10",True),botonc("¿?","11",True),botonc("¿?","12",True),botonc("¿?","13",True),botonc("¿?","14",True),botonc("¿?","15",True),botonc("¿?","16",True),botonc("¿?","17",True),botonc("¿?","18",True)],

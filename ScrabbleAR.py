@@ -31,7 +31,7 @@ if todo[2]:
     listas_palabras=[]
     ab=actualizar_columna.columna(window,0)
     if ok_posponer:
-        listas_palabras=AV.ReaundarPartida(g,window,maquina,Jugador1,tab_Ejecucuon,ab,Jugador1)
+        listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
         print(listas_palabras)
         if listas_palabras!= None:
             lista_total_persona=listas_palabras[1]
@@ -168,5 +168,6 @@ if todo[2]:
                         continue
         window.close()
     except(IndexError):
+        AV.MostrarFichasMaquina(window,maquina)
         nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
         Top.modificar_lista_ganadores(nombre)
