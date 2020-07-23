@@ -227,42 +227,43 @@ def CrucePrimerLetra(letra,pos,tab):
 
 
 def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
-    #try:
     lista_posponer=[]
     print("cargando partidda.......")
     archivo11 = open('posponerPartida.json','r')
     lista_posponer=json.load(archivo11)
     archivo11.close()
-    tab_Ejecucuon.set_coordenadas_en_tablero_lista(lista_posponer[1])
-    tab_Ejecucuon.set_selected(lista_posponer[2])
-    tab_Ejecucuon.set_matriz(lista_posponer[3])
-    tab_Ejecucuon.set_matrizMultiplica(lista_posponer[4])
-    tab_Ejecucuon.set_text_box(lista_posponer[0])
-    for x in range(0,15):
-        for y in range(0,15):
-            tab_Ejecucuon.EscribirEnTableroPosponer(x,y,g)
-    VerPuntajeNuevo(lista_posponer[5],window,maquina)
-    VerPuntajeNuevo(lista_posponer[6],window,jugador1)
-    AB.set_deshabilitados(lista_posponer[7])
-    AB.sacar_primer_atril(window,len(lista_posponer[7]))
-    archivo1 = open ('bolsa.json','w')
-    json.dump(lista_posponer[8],archivo1,indent=1)
-    archivo1.close()
-    jugador1.set_puntaje_total(lista_posponer[9])
-    jugador1.set_nombre(lista_posponer[11][0])
-    print(lista_posponer[11][0])
-    print(jugador1.get_nombre())
-    maquina.set_puntaje_total(lista_posponer[10])
-    window["puntaje_persona"].update(lista_posponer[9])
-    window["puntaje_maquina"].update(lista_posponer[10])
-    window["n_j"].update(jugador1.get_nombre())
+    if lista_posponer !=-1:
+        tab_Ejecucuon.set_coordenadas_en_tablero_lista(lista_posponer[1])
+        tab_Ejecucuon.set_selected(lista_posponer[2])
+        tab_Ejecucuon.set_matriz(lista_posponer[3])
+        tab_Ejecucuon.set_matrizMultiplica(lista_posponer[4])
+        tab_Ejecucuon.set_text_box(lista_posponer[0])
+        for x in range(0,15):
+            for y in range(0,15):
+                tab_Ejecucuon.EscribirEnTableroPosponer(x,y,g)
+        VerPuntajeNuevo(lista_posponer[5],window,maquina)
+        VerPuntajeNuevo(lista_posponer[6],window,jugador1)
+        AB.set_deshabilitados(lista_posponer[7])
+        AB.sacar_primer_atril(window,len(lista_posponer[7]))
+        archivo1 = open ('bolsa.json','w')
+        json.dump(lista_posponer[8],archivo1,indent=1)
+        archivo1.close()
+        jugador1.set_puntaje_total(lista_posponer[9])
+        jugador1.set_nombre(lista_posponer[11][0])
+        print(lista_posponer[11][0])
+        print(jugador1.get_nombre())
+        maquina.set_puntaje_total(lista_posponer[10])
+        window["puntaje_persona"].update(lista_posponer[9])
+        window["puntaje_maquina"].update(lista_posponer[10])
+        window["n_j"].update(jugador1.get_nombre())
+    else:
+        sg.popup("no hay partida guardada")
+        return ""
 
     jugador1.FinTurno()
     maquina.fin_turno()
     tab_Ejecucuon.FinTurno()
     return lista_posponer[5],lista_posponer[6]
-    #except:
-         #sg.popup("No se puede cargar la partida ya q no se a guardado una nunca. Disculpe las molestias")
 
 def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina):
     lista_posponer=[]
@@ -311,3 +312,15 @@ def MostrarFichasMaquina(w,maquina):
         i=i+1
         i=i*-1
         w.FindElement(str(i)).Update(atril[i])
+def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras):
+    lista=-1
+    #MostrarFichasMaquina(window,maquina)      ARREGLAR ERROR CUANDO QUIERO MOSTRAR LAS FICHAS DE LA MAQUINA
+    nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
+    Top.modificar_lista_ganadores(nombre)
+    archivo = open('posponerPartida.json','w')
+    json.dump(lista,archivo)
+    archivo.close()
+    if listas_palabras != "":
+        sg.popup("El juego termino, podriamos ponerle una imagen que indique eso si quieren")
+    else:
+        sg.popup("Reinicie el juego")

@@ -30,20 +30,18 @@ if todo[2]:
     g=tupla[1]
     listas_palabras=[]
     ab=actualizar_columna.columna(window,0)
-    if ok_posponer:
-        listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
-        print(listas_palabras)
-        if listas_palabras!= None:
-            lista_total_persona=listas_palabras[1]
-            lista_total_maquina=listas_palabras[0]
-    segundaletra=False
-    if (ok_posponer and listas_palabras== None) or (ok_posponer==False):
-        ab=actualizar_columna.columna(window,14)
-
-    start_time = int(round(time.time()*100))
-    tiempo_actual = 0
-    agrego_letra_del_tablero=   True
     try:
+        if ok_posponer:
+            listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
+            print(listas_palabras)
+            if listas_palabras!= None:
+                lista_total_persona=listas_palabras[1]
+                lista_total_maquina=listas_palabras[0]
+        segundaletra=False
+
+        start_time = int(round(time.time()*100))
+        tiempo_actual = 0
+        agrego_letra_del_tablero=   True
         while True:
             event, values = window.Read()
             tiempo_actual=int(round(time.time() * 100)) - start_time
@@ -52,6 +50,8 @@ if todo[2]:
                                                                 tiempo_actual%100))
             print(values)
             print(event)
+            if event == "Fin del Juego":
+                raise IndexError
             if event=="paso" and Jugador1.get_boton_seleccionado()==False :
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
                 print("encotnre esta letra:   "+letrita[0])
@@ -168,6 +168,4 @@ if todo[2]:
                         continue
         window.close()
     except(IndexError):
-        AV.MostrarFichasMaquina(window,maquina)
-        nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
-        Top.modificar_lista_ganadores(nombre)
+        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras)

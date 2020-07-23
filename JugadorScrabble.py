@@ -4,7 +4,7 @@ from JugadorGenerico import Padre
 
 class Jugador(Padre):
 
-    def __init__(self,nom='Jugador',turno=False):
+    def __init__(self,nom="Jugador",turno=False):
         super().__init__(turno)
         self._nombre=nom
         self._ID=2

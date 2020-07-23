@@ -9,7 +9,7 @@ def Configuracion():
     #self.main_container = gui.VBox(width=300, height=300)
 
     frame_layout = [
-                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input(key='nombre')],
+                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input("Jugador",key='nombre')],
                   [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
                   ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida"),sg.Button('Top10',size=(10,1))]
                ]
