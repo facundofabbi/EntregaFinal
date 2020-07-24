@@ -9,7 +9,7 @@ import random as r
 import time
 # import Actualizacion_Bolsa as ab
 
-def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna):
+def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna,tiempo_actual):
         Llaves=tab_Ejecucuon.get_llaves()
         ok=True
         ok1=False
@@ -22,8 +22,14 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna):
         print(len(actualizar_columna.get_muchosbotones()))
         print(tab_Ejecucuon.get_key_usadas())
         while(len(actualizar_columna.get_muchosbotones())>len(llavesTurno)):
-            event,values=window.Read()
-            if event!='_GRAPH_' and event !="Evaluar":
+            event,values=window.read(timeout=10,timeout_key="TIMEOUT_KEY")
+            window['tiempo'].update('{:02d}:{:02d}.{:02d}'.format((tiempo_actual // 100) // 60,
+                                                                (tiempo_actual // 100) % 60,
+                                                                tiempo_actual%100))
+            tiempo_actual+=1
+            if event=="TIMEOUT_KEY":
+                continue
+            if event!='_GRAPH_' and event !="ev":
                 if event in Llaves and not event in llavesTurno:
                     llavesTurno.append(event)
                     cambio.append(window.FindElement(event).GetText())
@@ -46,7 +52,7 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna):
         if oki:
             lista=Jugador1.CambioLetras(cambio)
             llet=tab_Ejecucuon.get_lista_de_letras_en_tablero()
-            actualizar_bolsa_de_fichas(len(llet),window,actualizar_columna,lista)
+            actualizar_bolsa_de_fichas(len(llet),window,actualizar_columna,lista,tiempo_actual)
             window.FindElement("Cambio Letras").Update("Cambio Letras")
             InterfazGrafica.Uncheck_button("Cambio Letras",window)
             Jugador1.FinTurno()
@@ -174,7 +180,7 @@ def roleo_random_fichas(mb,window,cant,ab):
     #except:
         #sg.popup("chicos aca se termia el programa dsp lo vemos")
         #window.close()
-def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
+def actualizar_bolsa_de_fichas(cant,window,ab,cambio,tiempo_actual):
     num=ab.get_cant()
     mb=ab.get_keys()
     cant=cant-num
@@ -184,24 +190,33 @@ def actualizar_bolsa_de_fichas(cant,window,ab,cambio):
     for i in lista_leras:
         window.FindElement(i).Update(disabled=False)
         window.FindElement(i).Update(button_color=('white','#07589B'))
-    h=bucle_de_cambio_letras(cambio,lista_leras,window)
+    h=bucle_de_cambio_letras(cambio,lista_leras,window,tiempo_actual)
     for i in h:
         window.FindElement(i).Update("¿?")
     for i in lista_leras:
         window.FindElement(i).Update(disabled=True)
         window.FindElement(i).Update(button_color=('black','#044880'))
-def bucle_de_cambio_letras(cambio,lista_keys,window):
+def bucle_de_cambio_letras(cambio,lista_keys,window,tiempo_actual):
     cant=len(cambio)
+    print("esto es lo q hayt q cambiar", cant)
     lista1=[]
     while True :
-        cant=cant-1
-        event,values=window.read()
-        if cant==0:
-            window.FindElement(event).Update(cambio[cant])
-            window.FindElement(event).Update(button_color=('black','#FEEFBA'),disabled=True)
+        event,values=window.read(timeout=10,timeout_key="TIMEOUT_KEY")
+        window['tiempo'].update('{:02d}:{:02d}.{:02d}'.format((tiempo_actual // 100) // 60,
+                                                            (tiempo_actual // 100) % 60,
+                                                            tiempo_actual%100))
+        tiempo_actual+=1
+        if event=="Cambio Letras":
+            break
+        if not event in lista_keys:
+            continue
+        if event=="TIMEOUT_KEY":
+            continue
+        if cant==1 or cant==0:
             lista1.append(event)
             break
         if event in lista_keys:
+            cant=cant-1
             window.FindElement(event).Update(cambio[cant])
             window.FindElement(event).Update(button_color=('black','#FEEFBA'),disabled=True)
             lista1.append(event)
@@ -263,9 +278,9 @@ def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
     jugador1.FinTurno()
     maquina.fin_turno()
     tab_Ejecucuon.FinTurno()
-    return lista_posponer[5],lista_posponer[6]
+    return lista_posponer[5],lista_posponer[6],lista_posponer[12]
 
-def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina):
+def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina,tiempo_actual):
     lista_posponer=[]
     lista_posponer.append(tab_Ejecucuon.get_text_box())
     lista_posponer.append(tab_Ejecucuon.get_coordenadas_en_tablero_lista())
@@ -286,6 +301,7 @@ def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jug
     lista.append(jugador1.get_nombre())
     print(lista)
     lista_posponer.append(lista)
+    lista_posponer.append(tiempo_actual)
     archivo = open ('posponerPartida.json','w')
     json.dump(lista_posponer,archivo)
     archivo.close()
@@ -312,7 +328,7 @@ def MostrarFichasMaquina(w,maquina):
         i=i+1
         i=i*-1
         w.FindElement(str(i)).Update(atril[i])
-def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras):
+def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op):
     lista=-1
     #MostrarFichasMaquina(window,maquina)      ARREGLAR ERROR CUANDO QUIERO MOSTRAR LAS FICHAS DE LA MAQUINA
     nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
@@ -320,7 +336,9 @@ def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras):
     archivo = open('posponerPartida.json','w')
     json.dump(lista,archivo)
     archivo.close()
-    if listas_palabras != "":
+    if listas_palabras != "" and op==False:
         sg.popup("El juego termino, podriamos ponerle una imagen que indique eso si quieren")
+    elif op:
+        sg.popup("ACA TE QUEDASTE SIN TIUEMPO")
     else:
         sg.popup("Reinicie el juego")

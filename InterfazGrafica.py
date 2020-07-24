@@ -20,7 +20,7 @@ def Check_boton(x,window):
     window.FindElement(x).Update(button_color=('black','#FF8453'))
 def Uncheck_boton(x,window):
     window.FindElement(x).Update(button_color=('black','#FEEFBA'))
-botonMaquina = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key,disabled = True)
+botonMaquina = lambda name,key : sg.Button(button_text=name,button_color=('black','#044880'),size=tamanio,key=key,disabled = True)
 botonb = lambda name,key : sg.Button(button_text=name,button_color=('black','#FEEFBA'),size=tamanio,key=key)
 botonc = lambda name,key,booleanito : sg.Button(button_text=name,button_color=('black','#044880'),size=tam,disabled=booleanito,key=key)
 
@@ -34,15 +34,17 @@ def tablero(jugador,tab_Ejecucuon):
     tam_button = 17,5
     tamanio=4,2
     button = lambda name : sg.Button(name,button_color=color_button,size=tam_button)
-    sg.theme('Darkbrown5')
+    sg.theme('DarkGreen3')   #verde Dark Green 3    , DarkBlue13   ,DarkBlue14   , DarkBrown1 , DarkBrown2  , DarkGrey4 Kayak , Topanga
+
+
     columna_2 = [ [botonMaquina('','-7'),botonMaquina('','-1'),botonMaquina('','-2'),botonMaquina('','-3'),botonMaquina('','-4'),botonMaquina('','-5'),botonMaquina('','-6')],
     [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 
     [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6"),sg.Text("                               "),sg.Button("Paso Turno",button_color=('black','#ABB2B9'),size=tamm,key="paso")],
-    [sg.Button("Evaluar",button_color=('black','#ABB2B9'),key='ev'),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'))]]
+    [sg.Button("Evaluar",button_color=('black','#ABB2B9'),key='ev'),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'),key="Cambio Letras")]]
     columna_1 = [ [sg.Text('TIEMPO')],[sg.Text(size=(8,2), font=('Helvetica', 20), key ='tiempo')],
-    [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_1', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_2', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ],
+    [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_7', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ],
     [sg.Text('MAQUINA',size=(10,0)),sg.Text(size=(4,0),key="puntaje_maquina")],[sg.Listbox([''],key='lista_maquina',size=(20,10))],
     [sg.Text(jugador.get_nombre(),key="n_j",size=(10,0)),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
     columna_3 = [[sg.Text('FICHAS')],
@@ -57,9 +59,9 @@ def tablero(jugador,tab_Ejecucuon):
                 [botonc("¿?","73",True),botonc("¿?","74",True),botonc("¿?","75",True),botonc("¿?","76",True),botonc("¿?","77",True),botonc("¿?","78",True),botonc("¿?","79",True),botonc("¿?","80",True),botonc("¿?","81",True)],
                 [botonc("¿?","82",True),botonc("¿?","83",True),botonc("¿?","84",True),botonc("¿?","85",True),botonc("¿?","86",True),botonc("¿?","87",True),botonc("¿?","88",True),botonc("¿?","89",True)],
                 [sg.Text('')],
-                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#092F50",change_submits=True, drag_submits=False),sg.Text('Fichas usadas.')],
+                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_8', background_color="#092F50",change_submits=True, drag_submits=False),sg.Text('Fichas usadas.')],
                 [sg.Text('')],
-                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#044880",change_submits=True, drag_submits=False),sg.Text('Fichas disponibles.'),sg.Text('')],
+                [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_9', background_color="#044880",change_submits=True, drag_submits=False),sg.Text('Fichas disponibles.'),sg.Text('')],
                 [sg.Text('                                                       '),sg.Text(''),sg.Text(''),sg.Text(''),sg.Button("Instrucciones",button_color=("white","#0D4E83"),key="inst")],
                 [sg.Text('                                                       '),sg.Text(''),sg.Text(''),sg.Text(''),sg.Button("Posponer",button_color=("white","#0D4E83"))],
                 [sg.Text('                                                       '),sg.Text(''),sg.Text(''),sg.Text(''),sg.Button("Fin del Juego",button_color=("white","#0D4E83"))]]
@@ -76,7 +78,7 @@ def tablero(jugador,tab_Ejecucuon):
 
 
     # layout=[columna1,columna2]
-    window = sg.Window('pruebaagus', ).Layout(diseño).Finalize()
+    window = sg.Window('Scrabble', ).Layout(diseño).Finalize()
     g = window.FindElement('_GRAPH_')
     matriz=tab_Ejecucuon.get_matriz()
     for row in range(15):

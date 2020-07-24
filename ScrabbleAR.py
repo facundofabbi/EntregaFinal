@@ -30,6 +30,8 @@ if todo[2]:
     g=tupla[1]
     listas_palabras=[]
     ab=actualizar_columna.columna(window,0)
+    tiempo_actual = 0
+    okey_fin=False
     try:
         if ok_posponer:
             listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
@@ -37,21 +39,26 @@ if todo[2]:
             if listas_palabras!= None:
                 lista_total_persona=listas_palabras[1]
                 lista_total_maquina=listas_palabras[0]
+                tiempo_actual=listas_palabras[2]
         segundaletra=False
-
-        start_time = int(round(time.time()*100))
-        tiempo_actual = 0
+        start_time = int(round(time.time()*100))-tiempo_actual
         agrego_letra_del_tablero=   True
         while True:
-            event, values = window.Read()
+            event, values = window.read(timeout=10,timeout_key="TIMEOUT_KEY")
             tiempo_actual=int(round(time.time() * 100)) - start_time
             window['tiempo'].update('{:02d}:{:02d}.{:02d}'.format((tiempo_actual // 100) // 60,
                                                                 (tiempo_actual // 100) % 60,
                                                                 tiempo_actual%100))
-            print(values)
-            print(event)
+            tiempo_actual+=1
+            if ((nivel[0]=="Facil" and tiempo_actual>60000) or (nivel[0]=="Medio" and tiempo_actual>=42000) or (nivel[0]=="VB" and tiempo_actual>=30000) or (nivel[0]=="JJ" and tiempo_actual>=30000)):
+                okey_fin=True
+                raise IndexError
             if event == "Fin del Juego":
                 raise IndexError
+
+            if event=="TIMEOUT_KEY" or event=="_GRAPH_6" or event=="_GRAPH_7" or event=="_GRAPH_8" or event=="_GRAPH_9":
+                continue
+
             if event=="paso" and Jugador1.get_boton_seleccionado()==False :
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
                 print("encotnre esta letra:   "+letrita[0])
@@ -70,6 +77,7 @@ if todo[2]:
                 continue
             if event is None :
                 break
+
             if event == "ev" and tab_Ejecucuon.get_palabra()!="" and Jugador1.get_boton_seleccionado()==False:
                 agrego_letra_del_tablero=   True
                 #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
@@ -101,7 +109,7 @@ if todo[2]:
             if event == 'ev' and tab_Ejecucuon.get_palabra()=='':
                 continue
             if event == "Posponer" and Jugador1.get_boton_seleccionado()==False:
-                AV.posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,ab,Jugador1,maquina)
+                AV.posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,ab,Jugador1,maquina,tiempo_actual)
                 break
             if event=="inst":
                 layout = [
@@ -118,10 +126,11 @@ if todo[2]:
                         break
                 win.close()
                 continue
+
             if event == "Cambio Letras" and Jugador1.get_boton_seleccionado()==False:
                 window.FindElement(event).Update("¡Presioname luego de selecionar todas tus letras a cambiar!.")
                 window.FindElement(event).Update(button_color=('white','black'))
-                AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,ab)
+                AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,ab,tiempo_actual)
                 segundaletra=False
                 continue
             if event == '_GRAPH_':
@@ -168,4 +177,4 @@ if todo[2]:
                         continue
         window.close()
     except(IndexError):
-        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras)
+        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,okey_fin)
