@@ -178,6 +178,13 @@ if todo[2]:
                         continue
             else:
                 if Jugador1.get_boton_seleccionado():
+                    lista=tab_Ejecucuon.get_key_usadas()
+                    total=len(lista)
+                    if event==lista[total-1]:
+                        letra==""
+                        Jugador1.set_boton_seleccionado(False)
+                        IG.Uncheck_boton(event,window)
+                        AV.error_de_boton(window,Jugador1,tab_Ejecucuon,event)
                     continue
                 else:
                     Jugador1.set_boton_seleccionado(True)

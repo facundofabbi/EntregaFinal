@@ -62,6 +62,11 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna,tiemp
 
 
 
+def error_de_boton(window,jugador,tab_Ejecucuon,event):
+    lis=tab_Ejecucuon.get_key_usadas()
+    letra=window.FindElement(event).GetText()
+    jugador.eliminar_letra_usada(letra)
+    tab_Ejecucuon.eliminar_key_usada(event)
 def tocoBoton(window,jugador,tab_Ejecucuon,event):
         lis=tab_Ejecucuon.get_key_usadas()
         letra=window.FindElement(event).GetText()

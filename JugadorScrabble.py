@@ -25,6 +25,9 @@ class Jugador(Padre):
     def get_Ya_Use(self):
         return self._Letras_Turno
 
+    def eliminar_letra_usada(self,dato):
+        self._Letras_Turno.remove(dato) 
+
     def set_letra_usada(self,letra):
         self._Letras_Turno.append(letra)
 

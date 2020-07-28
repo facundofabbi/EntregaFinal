@@ -111,8 +111,8 @@ class Turno:
         self._key_usadas.append(key)
     def get_key_usadas(self):
         return self._key_usadas
-
-
+    def eliminar_key_usada(self,dato):
+        self._key_usadas.remove(dato)
     def get_id(self):
         return self._id_usados_en_turno
 
