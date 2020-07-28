@@ -35,7 +35,7 @@ if todo[2]:
     try:
         if ok_posponer:
             listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
-            print(listas_palabras)
+            # print(listas_palabras)
             if listas_palabras!= None:
                 lista_total_persona=listas_palabras[1]
                 lista_total_maquina=listas_palabras[0]
@@ -61,9 +61,9 @@ if todo[2]:
 
             if event=="paso" and Jugador1.get_boton_seleccionado()==False :
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
-                print("encotnre esta letra:   "+letrita[0])
-
-                print(maquina.get_palabra())
+                # print("encotnre esta letra:   "+letrita[0])
+                #
+                # print(maquina.get_palabra())
                 maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
                 AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
                 ab.set_cant(len(letrita[1]))
@@ -78,34 +78,41 @@ if todo[2]:
             if event is None :
                 break
 
-            if event == "ev" and tab_Ejecucuon.get_palabra()!="" and Jugador1.get_boton_seleccionado()==False:
-                agrego_letra_del_tablero=   True
-                #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
-                if True:
-                    palabra = tab_Ejecucuon.get_palabra()
-                    lista_total_persona.append(Jugador1.Actualizar_Puntaje(AV,tab_Ejecucuon))
-                    AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
+
+
+            if event == "ev"  and Jugador1.get_boton_seleccionado()==False:
+                anterior=tab_Ejecucuon.get_posicionLetra_anterior()
+                if anterior[0] != -20 and tab_Ejecucuon.get_palabra()=="":
+                    tab_Ejecucuon.palabra_corta()
+                if tab_Ejecucuon.get_palabra()!="":
+                    # tab_Ejecucuon.ultima_letra()
+                    agrego_letra_del_tablero=   True
+                    #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+                    if True:
+                        palabra = tab_Ejecucuon.get_palabra()
+                        lista_total_persona.append(Jugador1.Actualizar_Puntaje(AV,tab_Ejecucuon))
+                        AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
+                        tab_Ejecucuon.FinTurno()
+                        AV.roleo_random_fichas(ab.get_keys(),window,len(palabra),ab)
+                        ab.set_cant(len(palabra))
+                        AV.VerPuntajeNuevo(lista_total_persona,window,Jugador1)
+                    else:
+                        AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
+                    Jugador1.FinTurno()
                     tab_Ejecucuon.FinTurno()
-                    AV.roleo_random_fichas(ab.get_keys(),window,len(palabra),ab)
-                    ab.set_cant(len(palabra))
-                    AV.VerPuntajeNuevo(lista_total_persona,window,Jugador1)
-                else:
-                    AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
-                Jugador1.FinTurno()
-                tab_Ejecucuon.FinTurno()
-                segundaletra=False
-                letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
-                print("encotnre esta letra:   "+letrita[0])
-                print(maquina.get_palabra())
-                maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
-                maquina.fin_turno()
-                puntos_maquina = maquina.get_puntos_jugador()
-                lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
-                AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
-                tab_Ejecucuon.FinTurno()
-                AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
-                ab.set_cant(len(letrita[1]))
-                continue
+                    segundaletra=False
+                    letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
+                    # print("encotnre esta letra:   "+letrita[0])
+                    # print(maquina.get_palabra())
+                    maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+                    maquina.fin_turno()
+                    puntos_maquina = maquina.get_puntos_jugador()
+                    lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
+                    AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
+                    tab_Ejecucuon.FinTurno()
+                    AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
+                    ab.set_cant(len(letrita[1]))
+                    continue
             if event == 'ev' and tab_Ejecucuon.get_palabra()=='':
                 continue
             if event == "Posponer" and Jugador1.get_boton_seleccionado()==False:
@@ -141,28 +148,31 @@ if todo[2]:
                 mouse2=mouse[1]-7
                 box_x = mouse1//tab_Ejecucuon.get_tam_Celda()
                 box_y = mouse2//tab_Ejecucuon.get_tam_Celda()
-                print(box_x)
-                print(box_y)
+                # print(box_x)
+                # print(box_y)
                 if  box_x > 14 or box_y > 14:
                     continue
                 if Jugador1.get_boton_seleccionado(): # logica de boton
                     if not segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y):
-                        agrego_letra_del_tablero=AV.CrucePrimerLetra(letra,(box_x,box_y),tab_Ejecucuon)
                         tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
                         tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                         segundaletra=True
-                        tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
-                        tab_Ejecucuon.set_palabra(letra)
-                        Jugador1.set_letra("")
+                        tab_Ejecucuon.set_posicionLetra_anterior((box_x,box_y))
                         Jugador1.set_boton_seleccionado(False)
+                        Jugador1.set_letra("")
+                        tab_Ejecucuon.set_primera_letra_palabra((box_x,box_y))
                         continue
                     if AV.posicionValida(box_x,box_y,tab_Ejecucuon) and segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y) :
                         tab_Ejecucuon.EscribirEnTablero(box_x,box_y,g,letra)
                         tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
-                        tab_Ejecucuon.set_posicionLetra1((box_x,box_y))
-                        tab_Ejecucuon.set_palabra(letra)
                         Jugador1.set_letra("")
                         Jugador1.set_boton_seleccionado(False)
+                        if tab_Ejecucuon.get_abajo() :
+                            tab_Ejecucuon.Armar_palabra_y(box_x,box_y)
+                        if tab_Ejecucuon.get_derecha() :
+                            tab_Ejecucuon.Armar_palabra_x(box_x,box_y)
+                        tab_Ejecucuon.set_posicionLetra_anterior((box_x,box_y))
+
                         continue
                     else :
                         continue
