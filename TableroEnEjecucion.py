@@ -1,6 +1,7 @@
 import InterfazGrafica as IG
 class Turno:
     Llaves=["boton0","boton1","boton2","boton3","boton4","boton5","boton6",]
+    botones_maquina=["m1","m2","m3","m4","m5","m6","m7"]
     def __init__(self):
         self._derecha = True
         self._abajo= True
@@ -28,6 +29,9 @@ class Turno:
             self._selected.append([False]*15)
             self._text_box.append([""]*15)
             self._matrizMultiplica.append([0]*15)
+
+    def get_botones_maquina(self):
+        return self.botones_maquina
 
     def set_primer_letra(self):
         self._primer_letra=False

@@ -37,7 +37,7 @@ def tablero(jugador,tab_Ejecucuon):
     sg.theme('DarkGreen3')   #verde Dark Green 3    , DarkBlue13   ,DarkBlue14   , DarkBrown1 , DarkBrown2  , DarkGrey4 Kayak , Topanga
 
 
-    columna_2 = [ [botonMaquina('','-7'),botonMaquina('','-1'),botonMaquina('','-2'),botonMaquina('','-3'),botonMaquina('','-4'),botonMaquina('','-5'),botonMaquina('','-6')],
+    columna_2 = [ [botonMaquina('','m1'),botonMaquina('','m2'),botonMaquina('','m3'),botonMaquina('','m4'),botonMaquina('','m5'),botonMaquina('','m6'),botonMaquina('','m7')],
     [sg.Graph((550,550),(0,240),(240,0), key='_GRAPH_', background_color='#1D8F64',change_submits=True, drag_submits=False)],
 
 

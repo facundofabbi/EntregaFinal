@@ -302,15 +302,18 @@ def Top10():
         if event == None:
             break
     w.close()
-def MostrarFichasMaquina(w,maquina):
+def MostrarFichasMaquina(w,maquina,tab):
+    lista=tab.get_botones_maquina()
     atril = maquina.get_atril()
-    for i in range(len(atril)):
-        i=i+1
-        i=i*-1
-        w.FindElement(str(i)).Update(atril[i])
-def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op):
+    h=0
+    for i in lista:
+        w.FindElement(i).Update(atril[h])
+        w.FindElement(i).Update(button_color=('black','#FEEFBA'))
+        h=h+1
+def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab):
     lista=-1
-    #MostrarFichasMaquina(window,maquina)      ARREGLAR ERROR CUANDO QUIERO MOSTRAR LAS FICHAS DE LA MAQUINA
+    MostrarFichasMaquina(window,maquina,tab)
+     # ARREGLAR ERROR CUANDO QUIERO MOSTRAR LAS FICHAS DE LA MAQUINA
     nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
     Top.modificar_lista_ganadores(nombre)
     archivo = open('posponerPartida.json','w')

@@ -194,4 +194,4 @@ if todo[2]:
                         continue
         window.close()
     except(IndexError):
-        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,okey_fin)
+        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,okey_fin,tab_Ejecucuon)
