@@ -9,6 +9,7 @@ import random as r
 import time
 
 def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna,tiempo_actual):
+        '''Este metodo se utiliza cuando la persona presiona el boton "cambiar letras" cambiando las mismas que haya seleccionado '''
         Llaves=tab_Ejecucuon.get_llaves()
         ok=True
         ok1=False
@@ -59,15 +60,15 @@ def cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,actualizar_columna,tiemp
                 window.FindElement(llavess[i]).Update(lista[i])
                 InterfazGrafica.Uncheck_boton(llavess[i],window)
 
-
-
-
 def error_de_boton(window,jugador,tab_Ejecucuon,event):
+    ''''Se utiliza para cuando queremos deseleccionar una letra del atril'''
     lis=tab_Ejecucuon.get_key_usadas()
     letra=window.FindElement(event).GetText()
     jugador.eliminar_letra_usada(letra)
     tab_Ejecucuon.eliminar_key_usada(event)
+
 def tocoBoton(window,jugador,tab_Ejecucuon,event):
+        '''Cambia el color de la ficha seleccionada en el atril y devuelve la letra del mismo'''
         lis=tab_Ejecucuon.get_key_usadas()
         letra=window.FindElement(event).GetText()
         InterfazGrafica.Check_boton(event,window)
@@ -78,9 +79,8 @@ def tocoBoton(window,jugador,tab_Ejecucuon,event):
         else:
             return ""
 
-
 def Post_Evaluamos (window,Jugador1,tab_Ejecucuon):
-        # ''' update color a botones , y fin de turno a jugador'''
+        '''update color a botones , y fin de turno a jugador'''
         Antes_usadas=Jugador1.get_Ya_Use()
         lista=Jugador1.CambioLetrasSinDevolver(Antes_usadas)
         key_usadas=tab_Ejecucuon.get_key_usadas()
@@ -91,6 +91,7 @@ def Post_Evaluamos (window,Jugador1,tab_Ejecucuon):
 
 
 def palabra_Invalida(tab_Ejecucuon,g,Jugador1,window):
+        '''Elimina la palabra cuando es invalida'''
         id_delete=tab_Ejecucuon.get_id()
         lista=tab_Ejecucuon.get_key_usadas()
         text_box=tab_Ejecucuon.get_text_box()
@@ -106,6 +107,7 @@ def palabra_Invalida(tab_Ejecucuon,g,Jugador1,window):
 
 
 def posicionValida(box_x,box_y,tab_Ejecucuon):
+    '''Evalua donde fue ingresada la primer letra para saber si se quiere concatenar con otra en el tablero'''
     posicionLetra1=tab_Ejecucuon.get_posicionLetra_anterior()
     x=posicionLetra1[0]
     y=posicionLetra1[1]
@@ -130,6 +132,7 @@ def posicionValida(box_x,box_y,tab_Ejecucuon):
 
 
 def VerPuntajeNuevo(lista_total_maquina,window,objeto):
+    '''Actualiza el puntaje de la maquina y el jugador en la interfaz grafica'''
     if objeto.get_id() ==1:
         window['lista_maquina'].update(values = lista_total_maquina)
         window['puntaje_maquina'].Update(objeto.get_puntaje_total())
@@ -139,6 +142,7 @@ def VerPuntajeNuevo(lista_total_maquina,window,objeto):
 
 
 def EvaluarPalabra(palabra,nivel):
+    '''Evalua que la plabra este acorde al nivel elegido'''
     nivel=nivel.upper()
     pal=parse(palabra).split("/")
     aux=pal[1]
@@ -158,20 +162,16 @@ def EvaluarPalabra(palabra,nivel):
         else:
             return False
 
-
-
-
 def roleo_random_fichas(mb,window,cant,ab):
-    #try:
-        for i in range(cant):
-            key= r.choice(mb)
-            ab.agregar_deshabilitado(key)
-            ab.sacar_llave(key)
-            window.FindElement(key).Update(button_color=('black','#092F50'))
-    #except:
-        #sg.popup("chicos aca se termia el programa dsp lo vemos")
-        #window.close()
+    '''Deshabilita ficha de la bolsa de manera aleatoria'''
+    for i in range(cant):
+        key= r.choice(mb)
+        ab.agregar_deshabilitado(key)
+        ab.sacar_llave(key)
+        window.FindElement(key).Update(button_color=('black','#092F50'))
+
 def actualizar_bolsa_de_fichas(cant,window,ab,cambio,tiempo_actual):
+    '''Actualiza la bolsa de fichas a medida que se vayan utilizando'''
     num=ab.get_cant()
     mb=ab.get_keys()
     cant=cant-num
@@ -187,9 +187,10 @@ def actualizar_bolsa_de_fichas(cant,window,ab,cambio,tiempo_actual):
     for i in lista_leras:
         window.FindElement(i).Update(disabled=True)
         window.FindElement(i).Update(button_color=('black','#044880'))
+
 def bucle_de_cambio_letras(cambio,lista_keys,window,tiempo_actual):
+    '''Asegura que despues de seleccionar el boton cambio letras y las letras solo se puedan cambiar por las fichas que se enecunetran el la bolsa'''
     cant=len(cambio)
-    print("esto es lo q hayt q cambiar", cant)
     lista1=[]
     while True :
         event,values=window.read(timeout=10,timeout_key="TIMEOUT_KEY")
@@ -216,12 +217,8 @@ def bucle_de_cambio_letras(cambio,lista_keys,window,tiempo_actual):
             break
     return lista1
 
-
-
-
-
-
 def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
+    '''Utiliza la infrmacion guardada en posponerPartida.json para poder seguir jugando con la partida previamente guardada'''
     lista_posponer=[]
     print("cargando partidda.......")
     archivo11 = open('posponerPartida.json','r')
@@ -252,7 +249,7 @@ def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
         window["puntaje_maquina"].update(lista_posponer[10])
         window["n_j"].update(jugador1.get_nombre())
     else:
-        sg.popup("no hay partida guardada")
+        sg.popup("no hay partida guardada") #///////////////////////////////////////////poner foto//////////////////////////////////////////////////////////////////////////////
         return ""
 
     jugador1.FinTurno()
@@ -260,7 +257,8 @@ def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
     tab_Ejecucuon.FinTurno()
     return lista_posponer[5],lista_posponer[6],lista_posponer[12]
 
-def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina,tiempo_actual):
+def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina,tiempo_actual,tablero,nivel):
+    '''Guarda todos los datos de la partida acutal para poder reanudarla'''
     lista_posponer=[]
     lista_posponer.append(tab_Ejecucuon.get_text_box())
     lista_posponer.append(tab_Ejecucuon.get_coordenadas_en_tablero_lista())
@@ -279,15 +277,17 @@ def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jug
     lista_posponer.append(maquina.get_puntaje_total())
     lista = []
     lista.append(jugador1.get_nombre())
-    print(lista)
     lista_posponer.append(lista)
     lista_posponer.append(tiempo_actual)
+    lista_posponer.append(tablero)  #14
+    lista_posponer.append(nivel)   #15
     archivo = open ('posponerPartida.json','w')
     json.dump(lista_posponer,archivo)
     archivo.close()
-    sg.popup("La partida sera pospueta para un futuro no muy lejano :D, anda a descansar y veni fresquito para seguire jugando")
+    sg.popup("La partida sera pospueta para un futuro no muy lejano :D, anda a descansar y veni fresquito para seguire jugando")  #////////////////////////PONER FOTO///////////////////////////
 
 def Top10():
+    '''Muestra el top de los jugadores'''
     archivo = open('TopJugadores.json','r')
     lista1=json.load(archivo)
     archivo.close()
@@ -302,7 +302,9 @@ def Top10():
         if event == None:
             break
     w.close()
+
 def MostrarFichasMaquina(w,maquina,tab):
+    '''Al finalizar el juego muesta en patalla las fichas que le quedo sin usar a la maquina'''
     lista=tab.get_botones_maquina()
     atril = maquina.get_atril()
     h=0
@@ -310,18 +312,19 @@ def MostrarFichasMaquina(w,maquina,tab):
         w.FindElement(i).Update(atril[h])
         w.FindElement(i).Update(button_color=('black','#FEEFBA'))
         h=h+1
+
 def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab):
+    '''Muetra las fichas de la maquina , reinicia el archivo posponer partida y actualiza el top 10'''
     lista=-1
     MostrarFichasMaquina(window,maquina,tab)
-     # ARREGLAR ERROR CUANDO QUIERO MOSTRAR LAS FICHAS DE LA MAQUINA
     nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
     Top.modificar_lista_ganadores(nombre)
     archivo = open('posponerPartida.json','w')
     json.dump(lista,archivo)
     archivo.close()
     if listas_palabras != "" and op==False:
-        sg.popup("El juego termino, podriamos ponerle una imagen que indique eso si quieren")
+        sg.popup("El juego termino, podriamos ponerle una imagen que indique eso si quieren")  #///////////////////////////////////FOTO LINDA/////////////////////////////////////////////////
     elif op:
-        sg.popup("ACA TE QUEDASTE SIN TIUEMPO")
+        sg.popup("ACA TE QUEDASTE SIN TIUEMPO")                             #///////////////////////////////////FOTO LINDA////////////////////////////
     else:
-        sg.popup("Reinicie el juego")
+        sg.popup("Reinicie el juego")                                       #///////////////////////////////////FOTO LINDA/////////////////////////////

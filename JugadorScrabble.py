@@ -26,7 +26,7 @@ class Jugador(Padre):
         return self._Letras_Turno
 
     def eliminar_letra_usada(self,dato):
-        self._Letras_Turno.remove(dato) 
+        self._Letras_Turno.remove(dato)
 
     def set_letra_usada(self,letra):
         self._Letras_Turno.append(letra)
@@ -38,6 +38,7 @@ class Jugador(Padre):
         self._boton_seleccionado=booleano
 
     def PuntosPalabraJugador(self,tab_Ejecucuon):
+        '''Evalua si la palabra fue ingresada en un casillero especial y devuelve los puntos actualizados'''
         pts=0
         archivo= open("puntaje_letras.json","r")
         dicc1=json.load(archivo)
@@ -45,6 +46,7 @@ class Jugador(Padre):
         palabra=tab_Ejecucuon.get_palabra()
         lista=tab_Ejecucuon.get_duplica()
         lista1=tab_Ejecucuon.get_triplica()
+        lista2=tab_Ejecucuon.get_resta()
         for i in palabra:
             num=dicc1[i]
             num=num[0]
@@ -52,14 +54,20 @@ class Jugador(Padre):
                 num=num*2
             if i in lista1:
                 num=num*3
+            if i in lista2:
+                num=0
             pts+=num
         return pts
+
     def Actualizar_Puntaje(self,AV,tab):
+        '''Actualiza el puntaje y agrega la palabra en la lista del jugador'''
         puntos = self.PuntosPalabraJugador(tab)
         palabra_y_puntaje = tab.get_palabra() + ' ' +str(puntos)
         self._puntaje_total = self._puntaje_total + puntos
         return palabra_y_puntaje
+
     def chequetoLetra(self,letra):
+        '''Cheque si la letra esta en la bolsa'''
         archivo=open ("bolsa.json","r")
         datos=json.load(archivo)
         archivo.close()

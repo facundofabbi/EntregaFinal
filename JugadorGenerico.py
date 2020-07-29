@@ -10,7 +10,6 @@ class Padre:
         self._puntaje_total=0
         self._letra=""
 
-
     def get_puntaje_total(self):
         return self._puntaje_total
 
@@ -40,7 +39,9 @@ class Padre:
 
     def set_turno(self,turno):
         self._turno=turno
+
     def CambioLetras(self,LetrasCambio=[]):
+        '''Devuelve las letras que se quieren cambiar a la bolsa '''
         archivo=open ("bolsa.json","r")
         datos=json.load(archivo)
         archivo.close()
@@ -59,10 +60,12 @@ class Padre:
 
 
     def CambioLetrasSinDevolver(self,LetrasCambio=[]):      #no devuelvo las letras al json
+        '''Cambia las letras utilizadas tras evaluar la palabra correctamente'''
         lista= self.BuscarEnLaBolsa(len(LetrasCambio))
         return lista
 
     def BuscarEnLaBolsa(self,cantidad):
+        '''Elimina las letras de la bolsa'''
         archivo=open ("bolsa.json","r")
         datos=json.load(archivo)
         archivo.close()

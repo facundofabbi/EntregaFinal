@@ -2,15 +2,14 @@ import json
 
 
 class Top:
-
     def __init__(self):
         self._lista_ganadores = []
-
 
     def get_lista_ganadores(self):
         return self._lista_ganadores
 
     def modificar_lista_ganadores(self,tupla):
+        '''Calcula que el nuevo puntaje tenga q agregarse a la lista del top'''
         archivo = open ('TopJugadores.json','r')
         self._lista_ganadores = json.load(archivo)
         archivo.close()

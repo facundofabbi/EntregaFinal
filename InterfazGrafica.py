@@ -25,9 +25,8 @@ botonb = lambda name,key : sg.Button(button_text=name,button_color=('black','#FE
 botonc = lambda name,key,booleanito : sg.Button(button_text=name,button_color=('black','#044880'),size=tam,disabled=booleanito,key=key)
 
 
-def tablero(jugador,tab_Ejecucuon):
-    '''creamos el tablero
-    es importante tener en cuenta q las 3 matrices son fundamentales'''
+def tablero(jugador,tab_Ejecucuon,tablero):
+    '''Creamos la iterfaz grafica del tablero y todos los componentes necesarios para el funcionamiento del mismo'''
     a=jugador.get_atril()
     tam_celda =tab_Ejecucuon.get_tam_Celda()
     color_button = ('black','#FEEFBA')
@@ -44,7 +43,8 @@ def tablero(jugador,tab_Ejecucuon):
     [botonb(a[0],"boton0"),botonb(a[1],"boton1"),botonb(a[2],"boton2"),botonb(a[3],"boton3"),botonb(a[4],"boton4"),botonb(a[5],"boton5"),botonb(a[6],"boton6"),sg.Text("                               "),sg.Button("Paso Turno",button_color=('black','#ABB2B9'),size=tamm,key="paso")],
     [sg.Button("Evaluar",button_color=('black','#ABB2B9'),key='ev'),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'),key="Cambio Letras")]]
     columna_1 = [ [sg.Text('TIEMPO')],[sg.Text(size=(8,2), font=('Helvetica', 20), key ='tiempo')],
-    [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_7', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra") ],
+    [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_7', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra")],
+    [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_10', background_color="#E33A3A",change_submits=True, drag_submits=False),sg.Text("Resta puntos") ],
     [sg.Text('MAQUINA',size=(10,0)),sg.Text(size=(4,0),key="puntaje_maquina")],[sg.Listbox([''],key='lista_maquina',size=(20,10))],
     [sg.Text(jugador.get_nombre(),key="n_j",size=(10,0)),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
     columna_3 = [[sg.Text('FICHAS')],
@@ -88,15 +88,32 @@ def tablero(jugador,tab_Ejecucuon):
                                                 line_color='black')
 
     text_box=tab_Ejecucuon.get_text_box()
-    dicc=__pintar(g,matriz,text_box)
+    dicc={}
+    if tablero=="TAB1":
+        dicc=__pintar1(g,matriz,text_box)
+    if tablero=="TAB2":
+        dicc=__pintar2(g,matriz,text_box)
+    if tablero=="TAB3":
+        dicc=__pintar3(g,matriz,text_box)
     tab_Ejecucuon.set_matriz(matriz)
     tab_Ejecucuon.set_text_box(text_box)
     tab_Ejecucuon.set_Casilleros_Especiales(dicc)
     return window,g
 
+def poner_tp(x,y,g,matriz,dicc):
+    g.TKCanvas.itemconfig(matriz[x][y], fill="#727CF0")
+    dicc[(x,y)]="TP"
 
-def __pintar(g,matriz,text_box):
-    ''' esto pinta los cuadrados'''
+def poer_rs(x,y,g,matriz,dicc):
+    g.TKCanvas.itemconfig(matriz[x][y], fill="#E33A3A")
+    dicc[(x,y)]="RS"
+
+def poner_duplica(x,y,g,matriz,dicc):
+    g.TKCanvas.itemconfig(matriz[x][y], fill="#FFA07A")
+    dicc[(x,y)]="DP"
+
+def __pintar1(g,matriz,text_box):
+    ''' Pinta los cuadros de los casilleros especiales'''
     grupo=[]
     grupo1=[]
     tam_celda =15
@@ -118,65 +135,164 @@ def __pintar(g,matriz,text_box):
         dicc[i]="DP"
     for i in grupo1:
         dicc[i]="DP"
+    poer_rs(7,0,g,matriz,dicc)
+    poer_rs(0,7,g,matriz,dicc)
+    poer_rs(14,7,g,matriz,dicc)
+    poer_rs(7,14,g,matriz,dicc)
 
-    g.TKCanvas.itemconfig(matriz[4][0], fill="#727CF0")
-    dicc[(4,0)]="TP"
-    g.TKCanvas.itemconfig(matriz[5][1], fill="#727CF0")
-    dicc[(5,1)]="TP"
-    g.TKCanvas.itemconfig(matriz[6][2], fill="#727CF0")
-    dicc[(6,2)]="TP"
-    g.TKCanvas.itemconfig(matriz[7][3], fill="#727CF0")
-    dicc[(7,3)]="TP"
-    g.TKCanvas.itemconfig(matriz[8][2], fill="#727CF0")
-    dicc[(8,2)]="TP"
-    g.TKCanvas.itemconfig(matriz[9][1], fill="#727CF0")
-    dicc[(9,1)]="TP"
-    g.TKCanvas.itemconfig(matriz[10][0], fill="#727CF0")
-    dicc[(10,0)]="TP"
-    g.TKCanvas.itemconfig(matriz[0][4], fill="#727CF0")
-    dicc[(0,4)]="TP"
-    g.TKCanvas.itemconfig(matriz[1][5], fill="#727CF0")
-    dicc[(1,5)]="TP"
-    g.TKCanvas.itemconfig(matriz[2][6], fill="#727CF0")
-    dicc[(2,6)]="TP"
-    g.TKCanvas.itemconfig(matriz[3][7], fill="#727CF0")
-    dicc[(3,7)]="TP"
-    g.TKCanvas.itemconfig(matriz[2][8], fill="#727CF0")
-    dicc[(2,8)]="TP"
-    g.TKCanvas.itemconfig(matriz[1][9], fill="#727CF0")
-    dicc[(1,9)]="TP"
-    g.TKCanvas.itemconfig(matriz[0][10], fill="#727CF0")
-    dicc[(0,10)]="TP"
-    # Otra Flecha
-    g.TKCanvas.itemconfig(matriz[14][4], fill="#727CF0")
-    dicc[(14,4)]="TP"
-    g.TKCanvas.itemconfig(matriz[13][5], fill="#727CF0")
-    dicc[(13,5)]="TP"
-    g.TKCanvas.itemconfig(matriz[12][6], fill="#727CF0")
-    dicc[(12,6)]="TP"
-    g.TKCanvas.itemconfig(matriz[11][7], fill="#727CF0")
-    dicc[(11,7)]="TP"
-    g.TKCanvas.itemconfig(matriz[12][8], fill="#727CF0")
-    dicc[(12,8)]="TP"
-    g.TKCanvas.itemconfig(matriz[13][9], fill="#727CF0")
-    dicc[(13,9)]="TP"
-    g.TKCanvas.itemconfig(matriz[14][10], fill="#727CF0")
-    dicc[(14,10)]="TP"
-    #  otra fleacha
-    g.TKCanvas.itemconfig(matriz[4][14], fill="#727CF0")
-    dicc[(4,14)]="TP"
-    g.TKCanvas.itemconfig(matriz[5][13], fill="#727CF0")
-    dicc[(5,13)]="TP"
-    g.TKCanvas.itemconfig(matriz[6][12], fill="#727CF0")
-    dicc[(6,12)]="TP"
 
-    g.TKCanvas.itemconfig(matriz[7][11], fill="#727CF0")
-    dicc[(7,11)]="TP"
+    poner_tp(4,0,g,matriz,dicc)
+    poner_tp(5,1,g,matriz,dicc)
+    poner_tp(6,2,g,matriz,dicc)
+    poner_tp(7,3,g,matriz,dicc)
+    poner_tp(8,2,g,matriz,dicc)
+    poner_tp(9,1,g,matriz,dicc)
+    poner_tp(10,0,g,matriz,dicc)
+    poner_tp(0,4,g,matriz,dicc)
+    poner_tp(1,5,g,matriz,dicc)
+    poner_tp(2,6,g,matriz,dicc)
+    poner_tp(3,7,g,matriz,dicc)
+    poner_tp(2,8,g,matriz,dicc)
+    poner_tp(1,9,g,matriz,dicc)
+    poner_tp(0,10,g,matriz,dicc)
+    poner_tp(14,4,g,matriz,dicc)
+    poner_tp(13,5,g,matriz,dicc)
+    poner_tp(12,6,g,matriz,dicc)
+    poner_tp(11,7,g,matriz,dicc)
+    poner_tp(12,8,g,matriz,dicc)
+    poner_tp(13,9,g,matriz,dicc)
+    poner_tp(14,10,g,matriz,dicc)
+    poner_tp(4,14,g,matriz,dicc)
+    poner_tp(5,13,g,matriz,dicc)
+    poner_tp(6,12,g,matriz,dicc)
+    poner_tp(7,11,g,matriz,dicc)
+    poner_tp(8,12,g,matriz,dicc)
+    poner_tp(9,13,g,matriz,dicc)
+    poner_tp(10,14,g,matriz,dicc)
+    return dicc
 
-    dicc[(8,12)]="TP"
-    g.TKCanvas.itemconfig(matriz[8][12], fill="#727CF0")
-    g.TKCanvas.itemconfig(matriz[9][13], fill="#727CF0")
-    dicc[(9,13)]="TP"
-    g.TKCanvas.itemconfig(matriz[10][14], fill="#727CF0")
-    dicc[(10,14)]="TP"
+
+def __pintar2(g,matriz,text_box):
+    ''' Pinta los cuadros de los casilleros especiales'''
+    dicc={}
+
+    poner_duplica(3,0,g,matriz,dicc)
+    poner_duplica(2,1,g,matriz,dicc)
+    poner_duplica(4,1,g,matriz,dicc)
+    poner_duplica(1,2,g,matriz,dicc)
+    poner_duplica(5,2,g,matriz,dicc)
+    poner_duplica(0,3,g,matriz,dicc)
+    poner_duplica(6,3,g,matriz,dicc)
+    poner_duplica(1,4,g,matriz,dicc)
+    poner_duplica(5,4,g,matriz,dicc)
+    poner_duplica(2,5,g,matriz,dicc)
+    poner_duplica(4,5,g,matriz,dicc)
+    poner_duplica(3,6,g,matriz,dicc)
+    poner_duplica(11,8,g,matriz,dicc)
+    poner_duplica(10,9,g,matriz,dicc)
+    poner_duplica(12,9,g,matriz,dicc)
+    poner_duplica(9,10,g,matriz,dicc)
+    poner_duplica(13,10,g,matriz,dicc)
+    poner_duplica(8,11,g,matriz,dicc)
+    poner_duplica(14,11,g,matriz,dicc)
+    poner_duplica(9,12,g,matriz,dicc)
+    poner_duplica(13,12,g,matriz,dicc)
+    poner_duplica(10,13,g,matriz,dicc)
+    poner_duplica(12,13,g,matriz,dicc)
+    poner_duplica(11,14,g,matriz,dicc)
+
+    poer_rs(7,0,g,matriz,dicc)
+    poer_rs(0,7,g,matriz,dicc)
+    poer_rs(14,7,g,matriz,dicc)
+    poer_rs(7,14,g,matriz,dicc)
+    poer_rs(3,3,g,matriz,dicc)
+    poer_rs(11,3,g,matriz,dicc)
+    poer_rs(11,11,g,matriz,dicc)
+    poer_rs(3,11,g,matriz,dicc)
+
+
+    poner_tp(11,0,g,matriz,dicc)
+    poner_tp(10,1,g,matriz,dicc)
+    poner_tp(12,1,g,matriz,dicc)
+    poner_tp(9,2,g,matriz,dicc)
+    poner_tp(13,2,g,matriz,dicc)
+    poner_tp(8,3,g,matriz,dicc)
+    poner_tp(14,3,g,matriz,dicc)
+    poner_tp(9,4,g,matriz,dicc)
+    poner_tp(13,4,g,matriz,dicc)
+    poner_tp(10,5,g,matriz,dicc)
+    poner_tp(12,5,g,matriz,dicc)
+    poner_tp(11,6,g,matriz,dicc)
+    poner_tp(3,8,g,matriz,dicc)
+    poner_tp(2,9,g,matriz,dicc)
+    poner_tp(4,9,g,matriz,dicc)
+    poner_tp(1,10,g,matriz,dicc)
+    poner_tp(5,10,g,matriz,dicc)
+    poner_tp(6,11,g,matriz,dicc)
+    poner_tp(0,11,g,matriz,dicc)
+    poner_tp(5,12,g,matriz,dicc)
+    poner_tp(1,12,g,matriz,dicc)
+    poner_tp(4,13,g,matriz,dicc)
+    poner_tp(2,13,g,matriz,dicc)
+    poner_tp(3,14,g,matriz,dicc)
+    return dicc
+
+def __pintar3(g,matriz,text_box):
+    ''' Pinta los cuadros de los casilleros especiales'''
+    dicc={}
+
+    poner_duplica(8,5,g,matriz,dicc)
+    poner_duplica(9,6,g,matriz,dicc)
+    poner_duplica(13,8,g,matriz,dicc)
+    poner_duplica(12,9,g,matriz,dicc)
+    poner_duplica(11,10,g,matriz,dicc)
+    poner_duplica(10,11,g,matriz,dicc)
+    poner_duplica(9,12,g,matriz,dicc)
+    poner_duplica(8,13,g,matriz,dicc)
+    poner_duplica(7,14,g,matriz,dicc)
+    poner_duplica(6,13,g,matriz,dicc)
+    poner_duplica(5,12,g,matriz,dicc)
+    poner_duplica(4,11,g,matriz,dicc)
+    poner_duplica(3,10,g,matriz,dicc)
+    poner_duplica(2,9,g,matriz,dicc)
+    poner_duplica(1,8,g,matriz,dicc)
+    poner_duplica(7,4,g,matriz,dicc)
+    poner_duplica(10,7,g,matriz,dicc)
+
+    poer_rs(2,0,g,matriz,dicc)
+    poer_rs(1,1,g,matriz,dicc)
+    poer_rs(0,2,g,matriz,dicc)
+    poer_rs(12,0,g,matriz,dicc)
+    poer_rs(13,1,g,matriz,dicc)
+    poer_rs(14,2,g,matriz,dicc)
+    poer_rs(14,12,g,matriz,dicc)
+    poer_rs(13,13,g,matriz,dicc)
+    poer_rs(12,14,g,matriz,dicc)
+    poer_rs(0,12,g,matriz,dicc)
+    poer_rs(1,13,g,matriz,dicc)
+    poer_rs(2,14,g,matriz,dicc)
+    poer_rs(6,5,g,matriz,dicc)
+    poer_rs(5,6,g,matriz,dicc)
+    poer_rs(9,8,g,matriz,dicc)
+    poer_rs(8,9,g,matriz,dicc)
+
+    poner_tp(4,7,g,matriz,dicc)
+    poner_tp(7,10,g,matriz,dicc)
+    poner_tp(14,7,g,matriz,dicc)
+    poner_tp(13,6,g,matriz,dicc)
+    poner_tp(12,5,g,matriz,dicc)
+    poner_tp(11,4,g,matriz,dicc)
+    poner_tp(10,3,g,matriz,dicc)
+    poner_tp(9,2,g,matriz,dicc)
+    poner_tp(8,1,g,matriz,dicc)
+    poner_tp(6,1,g,matriz,dicc)
+    poner_tp(5,2,g,matriz,dicc)
+    poner_tp(4,3,g,matriz,dicc)
+    poner_tp(3,4,g,matriz,dicc)
+    poner_tp(2,5,g,matriz,dicc)
+    poner_tp(1,6,g,matriz,dicc)
+    poner_tp(0,7,g,matriz,dicc)
+    poner_tp(5,8,g,matriz,dicc)
+    poner_tp(6,9,g,matriz,dicc)
+    poner_tp(7,0,g,matriz,dicc)
     return dicc

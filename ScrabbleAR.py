@@ -15,7 +15,7 @@ todo=c.Configuracion()
 if todo[2]:
     nivel=todo[0]
     ok_posponer=todo[1]
-    Top = Top.Top()                    #CREO EL Top
+    Top = Top.Top()
     Jugador1=Jugador(todo[3],True)
     maquina = Maquinola(True)
     lista=Jugador1.BuscarEnLaBolsa(7)
@@ -23,7 +23,7 @@ if todo[2]:
     lista=maquina.BuscarEnLaBolsa(7)
     maquina.set_Atril(lista)
     tab_Ejecucuon=TE.Turno()
-    tupla=IG.tablero(Jugador1,tab_Ejecucuon)
+    tupla=IG.tablero(Jugador1,tab_Ejecucuon,todo[4])
     window=tupla[0]
     lista_total_persona=[]
     lista_total_maquina=[]
@@ -35,8 +35,8 @@ if todo[2]:
     try:
         if ok_posponer:
             listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
-            # print(listas_palabras)
-            if listas_palabras!= None:
+            print(listas_palabras)
+            if listas_palabras!= "":
                 lista_total_persona=listas_palabras[1]
                 lista_total_maquina=listas_palabras[0]
                 tiempo_actual=listas_palabras[2]
@@ -116,7 +116,7 @@ if todo[2]:
             if event == 'ev' and tab_Ejecucuon.get_palabra()=='':
                 continue
             if event == "Posponer" and Jugador1.get_boton_seleccionado()==False:
-                AV.posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,ab,Jugador1,maquina,tiempo_actual)
+                AV.posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,ab,Jugador1,maquina,tiempo_actual,todo[4],nivel)
                 break
             if event=="inst":
                 layout = [

@@ -4,6 +4,7 @@ import random as r
 
 class columna:
     def __init__(self,window,cant):
+        '''Costructor de la clase columna'''
         self._muchosbotones=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","18","19","20",
         "21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46",
         "47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72",
@@ -19,6 +20,7 @@ class columna:
         return self._muchosbotones
 
     def sacar_primer_atril(self,window,cant):
+        ''''''
         for i in range (cant):
             dato=r.choice(self._muchosbotones)
             self.sacar_llave(dato)
@@ -28,13 +30,16 @@ class columna:
     def get_keys(self):
         return self._muchosbotones
 
-
     def get_deshabilitados (self):
         return self._deshabilitados
+
     def set_deshabilitados(self,deshabilitados):
         self._desabilitados=deshabilitados
 
     def agregar_deshabilitado(self,key):
+        '''Agrega a la lista de deshabilitados las llaves de las fichas en la bolsa que ya fueron utilizadas'''
         self._deshabilitados.append(key)
+
     def sacar_llave(self,dato):
-        self._muchosbotones.remove(dato)
+         '''Remueve de la lista de la variable muchosbotones las llaves de las fichas en la bolsa que ya fueron utilizadas'''
+         self._muchosbotones.remove(dato)

@@ -5,12 +5,14 @@ import json
 import ActualziarVentana as av
 
 def Configuracion():
+    '''Crea la interfaz grafica de la configuracion y retorna los valores elegidos por el jugador. Ademas cofigura la cantidad de fichas en el juego y puntaje de las mismas'''
     sg.theme('DarkAmber')
     #self.main_container = gui.VBox(width=300, height=300)
 
     frame_layout = [
                   [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input("Jugador",key='nombre')],
-                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))]
+                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))],
+                  [sg.Radio('TABLERO 1', "elegir_tablero", default=True,size=(10,1)), sg.Radio('TABLERO 2', "elegir_tablero",size=(10,1)), sg.Radio('TABLERO 3', "elegir_tablero",size=(10,1))]
                   ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida"),sg.Button('Top10',size=(10,1))]
                ]
     columna1 = [
@@ -24,7 +26,7 @@ def Configuracion():
 ]
 
 
-
+    nom=""
     windows = sg.Window("Scrabble").Layout(layout)
     while True:
         event, values = windows.Read()
@@ -32,13 +34,23 @@ def Configuracion():
         ok=False
         if event=="Reanudar partida":
             ok=True
-            if values[0] == True:
-                tupla = ("Facil", 20)
-            if values[1] == True:
-                tupla = ("Medio",15)
-            if values[2] == True:
-                lista = [("VB",10),("JJ",10)]
-                tupla = choice(lista)
+            archivo11 = open('posponerPartida.json','r')
+            lista_posponer=json.load(archivo11)
+            archivo11.close()
+            if lista_posponer !=-1:
+                if lista_posponer[14][0]=="Facil":
+                    tupla = ("Facil", 20)
+                if lista_posponer[14][0]=="Medio":
+                    tupla = ("Facil", 20)
+                if lista_posponer[14][0]=="Facil":
+                    lista = [("VB",10),("JJ",10)]
+                    tupla = choice(lista)
+                if lista_posponer[13]=="TAB1":
+                    nom="TAB1"
+                if lista_posponer[13]=="TAB2":
+                    nom="TAB2"
+                if lista_posponer[13]=="TAB3":
+                    nom="TAB3"
             break
 
         if event == 'Top10':
@@ -55,6 +67,12 @@ def Configuracion():
                 if values[2] == True:
                     lista = [("VB",10),("JJ",10)]
                     tupla = choice(lista)
+                if values[3] == True:
+                    nom="TAB1"
+                if values[4] == True:
+                    nom="TAB2"
+                if values[5] == True:
+                    nom="TAB3"
                 break
 
         if event =='Salir' or event==None:
@@ -130,6 +148,6 @@ def Configuracion():
     json.dump(Cant_Letras,archivo1,indent=1)
     archivo.close()
     windows.close()
-    return tupla,ok,True,values['nombre']
+    return tupla,ok,True,values['nombre'],nom
 if __name__ == '__main__':
      Configuracion()
