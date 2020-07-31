@@ -44,7 +44,7 @@ def tablero(jugador,tab_Ejecucuon,tablero):
     [sg.Button("Evaluar",button_color=('black','#ABB2B9'),key='ev'),sg.Button("Cambio Letras",button_color=('black','#ABB2B9'),key="Cambio Letras")]]
     columna_1 = [ [sg.Text('TIEMPO')],[sg.Text(size=(8,2), font=('Helvetica', 20), key ='tiempo')],
     [ sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_6', background_color="#727CF0",change_submits=True, drag_submits=False),sg.Text("Triplica Letra"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_7', background_color="#FFA07A",change_submits=True, drag_submits=False),sg.Text("Duplica Letra")],
-    [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_10', background_color="#E33A3A",change_submits=True, drag_submits=False),sg.Text("Resta puntos") ],
+    [sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_10', background_color="#E33A3A",change_submits=True, drag_submits=False),sg.Text("Resta puntos"),sg.Graph((25,25),(0,10),(10,0), key='_GRAPH_10', background_color="#CA4982",change_submits=True, drag_submits=False),sg.Text("Inicio") ],#"#CA4982"
     [sg.Text('MAQUINA',size=(10,0)),sg.Text(size=(4,0),key="puntaje_maquina")],[sg.Listbox([''],key='lista_maquina',size=(20,10))],
     [sg.Text(jugador.get_nombre(),key="n_j",size=(10,0)),sg.Text(size=(4,0),key="puntaje_persona")],[sg.Listbox([''],key='lista_persona',size=(20,10))]]
     columna_3 = [[sg.Text('FICHAS')],
@@ -114,27 +114,39 @@ def poner_duplica(x,y,g,matriz,dicc):
 
 def __pintar1(g,matriz,text_box):
     ''' Pinta los cuadros de los casilleros especiales'''
-    grupo=[]
-    grupo1=[]
-    tam_celda =15
-    for i in range(0,15):
-        grupo.append((i,i))
-    num=14
-    for i in range (0,15):
-        grupo1.append((i,num))
-        num=num-1
-
-    for i in range(len(grupo)):
-        g.TKCanvas.itemconfig(matriz[grupo[i][0]][grupo[i][1]], fill="#FFA07A")
-        text_box[grupo[i][0]][grupo[i][1]]= g.DrawText("", (grupo[i][1] * tam_celda + 12, grupo[i][0]* tam_celda + 11))
-    for i in range(len(grupo1)):
-        g.TKCanvas.itemconfig(matriz[grupo1[i][1]][grupo1[i][0]], fill="#FFA07A")
-        text_box[grupo1[i][0]][grupo1[i][1]]= g.DrawText("", (grupo1[i][1] * tam_celda + 12, grupo1[i][0]* tam_celda + 11))
     dicc={}
-    for i in grupo:
-        dicc[i]="DP"
-    for i in grupo1:
-        dicc[i]="DP"
+    g.TKCanvas.itemconfig(matriz[7][7], fill="#CA4982")
+
+    poner_duplica(0,0,g,matriz,dicc)
+    poner_duplica(1,1,g,matriz,dicc)
+    poner_duplica(2,2,g,matriz,dicc)
+    poner_duplica(3,3,g,matriz,dicc)
+    poner_duplica(4,4,g,matriz,dicc)
+    poner_duplica(5,5,g,matriz,dicc)
+    poner_duplica(6,6,g,matriz,dicc)
+    poner_duplica(8,8,g,matriz,dicc)
+    poner_duplica(9,9,g,matriz,dicc)
+    poner_duplica(10,10,g,matriz,dicc)
+    poner_duplica(11,11,g,matriz,dicc)
+    poner_duplica(12,12,g,matriz,dicc)
+    poner_duplica(13,13,g,matriz,dicc)
+    poner_duplica(14,14,g,matriz,dicc)
+    poner_duplica(14,0,g,matriz,dicc)
+    poner_duplica(13,1,g,matriz,dicc)
+    poner_duplica(12,2,g,matriz,dicc)
+    poner_duplica(11,3,g,matriz,dicc)
+    poner_duplica(10,4,g,matriz,dicc)
+    poner_duplica(9,5,g,matriz,dicc)
+    poner_duplica(8,6,g,matriz,dicc)
+    poner_duplica(6,8,g,matriz,dicc)
+    poner_duplica(5,9,g,matriz,dicc)
+    poner_duplica(4,10,g,matriz,dicc)
+    poner_duplica(3,11,g,matriz,dicc)
+    poner_duplica(2,12,g,matriz,dicc)
+    poner_duplica(1,13,g,matriz,dicc)
+    poner_duplica(0,14,g,matriz,dicc)
+
+
     poer_rs(7,0,g,matriz,dicc)
     poer_rs(0,7,g,matriz,dicc)
     poer_rs(14,7,g,matriz,dicc)
@@ -175,6 +187,8 @@ def __pintar1(g,matriz,text_box):
 def __pintar2(g,matriz,text_box):
     ''' Pinta los cuadros de los casilleros especiales'''
     dicc={}
+
+    g.TKCanvas.itemconfig(matriz[7][7], fill="#CA4982")
 
     poner_duplica(3,0,g,matriz,dicc)
     poner_duplica(2,1,g,matriz,dicc)
@@ -240,6 +254,7 @@ def __pintar2(g,matriz,text_box):
 def __pintar3(g,matriz,text_box):
     ''' Pinta los cuadros de los casilleros especiales'''
     dicc={}
+    g.TKCanvas.itemconfig(matriz[7][7], fill="#CA4982")
 
     poner_duplica(8,5,g,matriz,dicc)
     poner_duplica(9,6,g,matriz,dicc)

@@ -162,6 +162,7 @@ class Turno:
         self._abajo=False
 
     def chequeroDuplica(self,x,y,letra):
+        '''Verificamos si la letra se encuentra en un casillero especial'''
         try:
             if self._Casilleros_Especiales[(x,y)]=="DP":
                 self._duplica_palabra.append(letra)
@@ -238,18 +239,18 @@ class Turno:
         else :
             self.set_palabra(self.get_coordenadas_en_tablero(box_x,box_y))
 
-    def ultima_letra(self):
-        ''''''
-        anterior=self._posicionLetra1
-        anterior_x=anterior[0]
-        anterior_y=anterior[1]
-        if self.get_abajo()and self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" : #////////////////////////////////agus docstring y explicar///////////////////////
-            self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
-        if self.get_derecha() :
-            self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
+    # def ultima_letra(self):
+    #     ''''''
+    #     anterior=self._posicionLetra1
+    #     anterior_x=anterior[0]
+    #     anterior_y=anterior[1]
+    #     if self.get_abajo()and self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" :
+    #         self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
+    #     if self.get_derecha() :
+    #         self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
 
     def palabra_corta(self):
-        ''''''   #a este modulo le falta evaluar q palabra se pone cuando es de dos letras , evaluar en pattern y setear la palabra #////////////////////////////////agus docstring y explicar////////////
+        '''Chequea palabra corta a lo sumo 3 letras en pattern y devuelve la correcta'''
         anterior=self._posicionLetra1
         anterior_x=anterior[0]
         anterior_y=anterior[1]
@@ -263,9 +264,10 @@ class Turno:
             if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and ok1:
                 self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
                 self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-            if self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" and ok1:
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
+            if anterior_y+1<=14:
+                if self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" and ok1 :
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
         if self.get_derecha():
             ok1=True
             if self.get_coordenadas_en_tablero(anterior_x-1,anterior_y)!="" and self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="":
@@ -276,9 +278,10 @@ class Turno:
             if self.get_coordenadas_en_tablero(anterior_x-1,anterior_y)!="" and ok1:
                 self.set_palabra(self.get_coordenadas_en_tablero(anterior_x-1,anterior_y))
                 self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-            if self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="" and ok1:
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
+            if anterior_x+1<=14:
+                if self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="" and ok1:
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
 
     def Armar_palabra_x(self,box_x,box_y):
         '''Forma la palabra cruzandola en eje x'''

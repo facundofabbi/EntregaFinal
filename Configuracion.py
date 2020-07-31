@@ -19,7 +19,7 @@ def Configuracion():
              [sg.Frame('Configuración', frame_layout, font='Any 12', title_color='yellow')],
              ]
     columna2 = [
-     [sg.Image(r'foto.gif')]
+        [sg.Image(r'inicio.png')]    #Referencia a la imagen: https://www.freepik.es/foto-gratis/palabra-inicio-deletrea-letras-madera_4974651.htm#page=1&query=scrabble&position=4
     ]
     layout = [
 [sg.Column(columna1), sg.Column(columna2)]

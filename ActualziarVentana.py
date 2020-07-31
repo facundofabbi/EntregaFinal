@@ -249,7 +249,7 @@ def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
         window["puntaje_maquina"].update(lista_posponer[10])
         window["n_j"].update(jugador1.get_nombre())
     else:
-        sg.popup("no hay partida guardada") #///////////////////////////////////////////poner foto//////////////////////////////////////////////////////////////////////////////
+        sg.popup("no hay partida guardada")
         return ""
 
     jugador1.FinTurno()
@@ -284,7 +284,19 @@ def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jug
     archivo = open ('posponerPartida.json','w')
     json.dump(lista_posponer,archivo)
     archivo.close()
-    sg.popup("La partida sera pospueta para un futuro no muy lejano :D, anda a descansar y veni fresquito para seguire jugando")  #////////////////////////PONER FOTO///////////////////////////
+    sg.theme('black')
+    layout = [
+        [sg.Image(r'POSPONER1.png')],
+        [sg.Button("¡Entendido!",key="ok")]
+     ]
+    win=sg.Window("Posponer").Layout(layout)
+    while True :
+        e,v=win.read()
+        if e== None:
+            break
+        if e=="ok":
+            break
+    win.close()
 
 def Top10():
     '''Muestra el top de los jugadores'''
@@ -323,8 +335,32 @@ def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab):
     json.dump(lista,archivo)
     archivo.close()
     if listas_palabras != "" and op==False:
-        sg.popup("El juego termino, podriamos ponerle una imagen que indique eso si quieren")  #///////////////////////////////////FOTO LINDA/////////////////////////////////////////////////
+        sg.theme('black')
+        layout = [
+            [sg.Image(r'fin_del_juego.png')],  #Imagen hecha por los integrantes   fin_del_juego.png
+            [sg.Button("¡Entendido!",key="ok")]
+         ]
+        win1=sg.Window("Fin de juego").Layout(layout)
+        while True :
+            e,v=win1.read()
+            if e== None:
+                break
+            if e=="ok":
+                break
+        win1.close()
     elif op:
-        sg.popup("ACA TE QUEDASTE SIN TIUEMPO")                             #///////////////////////////////////FOTO LINDA////////////////////////////
+        sg.theme('black')
+        layout = [
+            [sg.Image(r'tiempo.png')],          #Imagen hecha por los integrantes
+            [sg.Button("¡Entendido!",key="ok")]
+         ]
+        win=sg.Window("Sin timepo").Layout(layout)
+        while True :
+            e,v=win.read()
+            if e== None:
+                break
+            if e=="ok":
+                break
+        win.close()
     else:
-        sg.popup("Reinicie el juego")                                       #///////////////////////////////////FOTO LINDA/////////////////////////////
+        sg.popup("Reinicie el juego")

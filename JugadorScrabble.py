@@ -10,6 +10,7 @@ class Jugador(Padre):
         self._ID=2
         self._Letras_Turno=[]  #ya use
         self._boton_seleccionado=False
+        
     def set_nombre(self,nombre):
         self._nombre=nombre
     def get_nombre(self):

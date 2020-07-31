@@ -104,6 +104,25 @@ class Maquinola(Padre):
             if num<=0:
                 break
 
+    def PrimerLugar(self,tab,g):
+        '''Coloca la primer palabra en el casilllero de inicio'''
+        ok=False
+        x=7
+        y=7
+        tablero=[]
+        tablero=tab.get_tablero_booleano()
+        num=500
+        while True:
+            num=num-1
+            puse_palabra=self._chequeo_espacio(tablero,tab,x,y,g)
+            if puse_palabra:
+                break
+            else:
+                x=random.randrange(15)
+                y=random.randrange(15)
+            if num<=0:
+                break
+
     def calculo_lugar_en_x_cruzada(self,tab,x,y,primerMitad,segundaMitad):
         '''Busca que haya lugar antes y despues de la letra que se quiere cruzar en el eje X'''
         pal=self._palabra
