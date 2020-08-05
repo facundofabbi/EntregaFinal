@@ -11,3 +11,5 @@ COSAS Q NOS FALTAN PARA LA ENTREGA:
   -hay que aclrar q todas las imagene son libres en el informe
   -poner fotos lindas
   -que funcione en linux
+  -Cuando cambia letras tyenemos q pasar el turno
+  -Nombrews en el top ten con llaves {}

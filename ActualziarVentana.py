@@ -118,13 +118,13 @@ def posicionValida(box_x,box_y,tab_Ejecucuon):
         tab_Ejecucuon.set_abajo()
         return True
     y=y+1
-    if box_x==x and y==box_y and  tab_Ejecucuon.get_abajo() :
+    if box_x==x and y==box_y and  tab_Ejecucuon.get_abajo() and y<=14:
         tab_Ejecucuon.set_derecha()
         return True
     else :
         y=y-1
         x=x+1
-        if box_x==x and y==box_y and  tab_Ejecucuon.get_derecha() :
+        if box_x==x and y==box_y and  tab_Ejecucuon.get_derecha() and x<=14 :
             tab_Ejecucuon.set_abajo()
             return True
     return False

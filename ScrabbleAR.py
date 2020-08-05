@@ -34,10 +34,12 @@ if todo[2]:
     tiempo_actual = 0
     okey_fin=False
     ok_invalida_todo=True
+    ok_juegaMaquina=False
+    formo_palabra_corta=True
+    ok_no_entro=True
     try:
         if ok_posponer:
             listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
-            print(listas_palabras)
             if listas_palabras!= "":
                 lista_total_persona=listas_palabras[1]
                 lista_total_maquina=listas_palabras[0]
@@ -55,8 +57,24 @@ if todo[2]:
             tab_Ejecucuon.FinTurno()
             lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
             AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
-            agrego_letra_del_tablero=   True
+            agrego_letra_del_tablero=True
         while True:
+            if ok_juegaMaquina:
+                ok_juegaMaquina=False
+                letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
+                print(arranque_random)
+                if arranque_random==0:
+                    maquina.PrimerLugar(tab_Ejecucuon,g)
+                    arranque_random=1
+                else:
+                    maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+                AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
+                ab.set_cant(len(letrita[1]))
+                maquina.fin_turno()
+                tab_Ejecucuon.FinTurno()
+                lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
+                AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
+                agrego_letra_del_tablero=   True
             event, values = window.read(timeout=10,timeout_key="TIMEOUT_KEY")
             tiempo_actual=int(round(time.time() * 100)) - start_time
             window['tiempo'].update('{:02d}:{:02d}.{:02d}'.format((tiempo_actual // 100) // 60,
@@ -73,9 +91,13 @@ if todo[2]:
             if event=="TIMEOUT_KEY" or event=="_GRAPH_6" or event=="_GRAPH_7" or event=="_GRAPH_8" or event=="_GRAPH_9":
                 continue
 
-            if event=="paso" and ok_invalida_todo:
+            if (event=="paso" and ok_invalida_todo):
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
-                maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+                if arranque_random==0:
+                    maquina.PrimerLugar(tab_Ejecucuon,g)
+                    arranque_random=1
+                else:
+                    maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
                 AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
                 ab.set_cant(len(letrita[1]))
                 maquina.fin_turno()
@@ -88,13 +110,35 @@ if todo[2]:
                 continue
             if event is None :
                 break
-
-
-
             if event == "ev"  and Jugador1.get_boton_seleccionado()==False:
                 anterior=tab_Ejecucuon.get_posicionLetra_anterior()
                 if anterior[0] != -20 and tab_Ejecucuon.get_palabra()=="":
-                    tab_Ejecucuon.palabra_corta()
+                    formo_palabra_corta=tab_Ejecucuon.palabra_corta()
+                if formo_palabra_corta==False:
+                    if ok_no_entro:
+                        ok_no_entro=False
+                        arranque_random=0
+                    tab_Ejecucuon.set_palabra(letra)
+                    AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
+                    Jugador1.FinTurno()
+                    tab_Ejecucuon.FinTurno()
+                    segundaletra=False
+                    letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
+                    if arranque_random==0:
+                        maquina.PrimerLugar(tab_Ejecucuon,g)
+                        arranque_random=1
+                    else:
+                        maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+                    maquina.fin_turno()
+                    puntos_maquina = maquina.get_puntos_jugador()
+                    lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
+                    AV.VerPuntajeNuevo(lista_total_maquina,window,maquina)
+                    tab_Ejecucuon.FinTurno()
+                    AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
+                    ab.set_cant(len(letrita[1]))
+                    ok_invalida_todo=True
+                    formo_palabra_corta=True
+                    continue
                 if tab_Ejecucuon.get_palabra()!="":
                     # tab_Ejecucuon.ultima_letra()
                     agrego_letra_del_tablero=   True
@@ -115,7 +159,11 @@ if todo[2]:
                     letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
                     # print("encotnre esta letra:   "+letrita[0])
                     # print(maquina.get_palabra())
-                    maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
+                    if arranque_random==0:
+                        maquina.PrimerLugar(tab_Ejecucuon,g)
+                        arranque_random=1
+                    else:
+                        maquina.evaluar_donde(tab_Ejecucuon,g,letrita[0])
                     maquina.fin_turno()
                     puntos_maquina = maquina.get_puntos_jugador()
                     lista_total_maquina.append(maquina.Actualizar_Puntaje(AV,letrita[1],tab_Ejecucuon))
@@ -149,6 +197,7 @@ if todo[2]:
                 window.FindElement(event).Update("¡Presioname luego de selecionar todas tus letras a cambiar!.")
                 window.FindElement(event).Update(button_color=('white','black'))
                 AV.cambiamosLetras(window,Jugador1,event,tab_Ejecucuon,ab,tiempo_actual)
+                ok_juegaMaquina=True
                 segundaletra=False
                 continue
             if event == '_GRAPH_':
@@ -180,7 +229,7 @@ if todo[2]:
                         tab_Ejecucuon.chequeroDuplica(box_x,box_y,letra)
                         Jugador1.set_letra("")
                         Jugador1.set_boton_seleccionado(False)
-                        if tab_Ejecucuon.get_abajo() :
+                        if tab_Ejecucuon.get_abajo():
                             tab_Ejecucuon.Armar_palabra_y(box_x,box_y)
                         if tab_Ejecucuon.get_derecha() :
                             tab_Ejecucuon.Armar_palabra_x(box_x,box_y)

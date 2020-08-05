@@ -77,7 +77,7 @@ class Turno:
         '''Finaliza el turno dejando todas las variables en su estado inicial'''
         self._posicionLetra1=(-20,-20)
         self._letra_anterior_a_la_primera=True
-        self._primera_letra_en_el_turno_posicion=""
+        self._primera_letra_en_el_turno_posicion=(-20,-20)
         self._derecha = True
         self._abajo= True
         self._palabra=""
@@ -224,20 +224,22 @@ class Turno:
         anterior_x=anterior[0]
         anterior_y=anterior[1]
         ok_dos_veces_la_primera=True
-        if self.get_coordenadas_en_tablero(primer_x,primer_y-1)!="" and  self.get_letra_anterior_a_la_primera():
-            self.set_letra_anterior_a_la_primera()
-            ok_dos_veces_la_primera=False
-            self.set_primer_letra()
-            self.set_palabra(self.get_coordenadas_en_tablero(primer_x,primer_y-1))
-            self.set_palabra(self.get_coordenadas_en_tablero(primer_x,primer_y))
-        if  self.get_primer_letra():
-            self.set_primer_letra()
-            self.set_palabra(self.get_coordenadas_en_tablero(primer_x,primer_y))
-        if  box_x==anterior_x and box_y-2==anterior_y:
-            self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
-            self.set_palabra(self.get_coordenadas_en_tablero(box_x,box_y))
-        else :
-            self.set_palabra(self.get_coordenadas_en_tablero(box_x,box_y))
+        a=(primer_y-1)
+        if ((primer_x!=14) and (anterior_x!=0)):
+            if self.get_coordenadas_en_tablero(primer_x,a)!="" and  self.get_letra_anterior_a_la_primera():
+                self.set_letra_anterior_a_la_primera()
+                ok_dos_veces_la_primera=False
+                self.set_primer_letra()
+                self.set_palabra(self.get_coordenadas_en_tablero(primer_x,primer_y-1))
+                self.set_palabra(self.get_coordenadas_en_tablero(primer_x,primer_y))
+            if  self.get_primer_letra():
+                self.set_primer_letra()
+                self.set_palabra(self.get_coordenadas_en_tablero(primer_x,primer_y))
+            if  box_x==anterior_x and box_y-2==anterior_y:
+                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
+                self.set_palabra(self.get_coordenadas_en_tablero(box_x,box_y))
+            else :
+                self.set_palabra(self.get_coordenadas_en_tablero(box_x,box_y))
 
     # def ultima_letra(self):
     #     ''''''
@@ -254,34 +256,43 @@ class Turno:
         anterior=self._posicionLetra1
         anterior_x=anterior[0]
         anterior_y=anterior[1]
-        if self.get_abajo():
-            ok1=True
-            if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="":
-                ok1=False
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
-            if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and ok1:
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-            if anterior_y+1<=14:
-                if self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" and ok1 :
+        if anterior_y-1 !=-1:
+            if self.get_abajo():
+                ok1=True
+                if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="":
+                    ok1=False
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
-        if self.get_derecha():
-            ok1=True
-            if self.get_coordenadas_en_tablero(anterior_x-1,anterior_y)!="" and self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="":
-                ok1=False
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x-1,anterior_y))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
-            if self.get_coordenadas_en_tablero(anterior_x-1,anterior_y)!="" and ok1:
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x-1,anterior_y))
-                self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
-            if anterior_x+1<=14:
-                if self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="" and ok1:
+                    return True
+                if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and ok1:
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                    return True
+                if anterior_y+1<=14:
+                    if self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" and ok1 :
+                        self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                        self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
+                        return True
+        if anterior_x-1 !=-1:
+            if self.get_derecha():
+                ok1=True
+                if self.get_coordenadas_en_tablero(anterior_x-1,anterior_y)!="" and self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="":
+                    ok1=False
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x-1,anterior_y))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
+                    return True
+                if self.get_coordenadas_en_tablero(anterior_x-1,anterior_y)!="" and ok1:
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x-1,anterior_y))
+                    self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                    return True
+                if anterior_x+1<=14:
+                    if self.get_coordenadas_en_tablero(anterior_x+1,anterior_y)!="" and ok1:
+                        self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                        self.set_palabra(self.get_coordenadas_en_tablero(anterior_x+1,anterior_y))
+                        return True
+        return False
 
     def Armar_palabra_x(self,box_x,box_y):
         '''Forma la palabra cruzandola en eje x'''
