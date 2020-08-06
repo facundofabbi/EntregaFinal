@@ -14,6 +14,10 @@ class Maquinola(Padre):
         super().__init__(turno)
         self._palabra = ""
         self._ID = 1
+        self._cant_paso=0
+
+    def get_cant_paso(self):
+        return self._cant_paso
 
     def get_id(self):
         return self._ID
@@ -227,6 +231,8 @@ class Maquinola(Padre):
     def Actualizar_Puntaje(self,AV,palabra,tab):
         '''Actuliza el puntaje total de la maquina'''
         puntos_maquina = self.PuntosPalabra_Maquina(palabra,tab)
+        if puntos_maquina==0:
+            self._cant_paso+=1
         palabra_y_puntaje_maquina = palabra + ' ' +str(puntos_maquina)
         self._puntaje_total = self._puntaje_total + puntos_maquina
         return palabra_y_puntaje_maquina

@@ -217,7 +217,7 @@ def bucle_de_cambio_letras(cambio,lista_keys,window,tiempo_actual):
             break
     return lista1
 
-def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
+def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1,nivel):
     '''Utiliza la infrmacion guardada en posponerPartida.json para poder seguir jugando con la partida previamente guardada'''
     lista_posponer=[]
     print("cargando partidda.......")
@@ -255,7 +255,7 @@ def ReaundarPartida(g,window,maquina,tab_Ejecucuon,AB,jugador1):
     jugador1.FinTurno()
     maquina.fin_turno()
     tab_Ejecucuon.FinTurno()
-    return lista_posponer[5],lista_posponer[6],lista_posponer[12]
+    return lista_posponer[5],lista_posponer[6],lista_posponer[12],lista_posponer[14]
 
 def posponerPartida(tab_Ejecucuon,lista_total_persona,lista_total_maquina,AB,jugador1,maquina,tiempo_actual,tablero,nivel):
     '''Guarda todos los datos de la partida acutal para poder reanudarla'''
@@ -325,7 +325,7 @@ def MostrarFichasMaquina(w,maquina,tab):
         w.FindElement(i).Update(button_color=('black','#FEEFBA'))
         h=h+1
 
-def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab):
+def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab,no_hay_partida):
     '''Muetra las fichas de la maquina , reinicia el archivo posponer partida y actualiza el top 10'''
     lista=-1
     MostrarFichasMaquina(window,maquina,tab)
@@ -335,6 +335,34 @@ def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab):
     archivo = open('posponerPartida.json','w')
     json.dump(lista,archivo)
     archivo.close()
+    if Jugador1.get_puntaje_total()>maquina.get_puntaje_total() or maquina.get_cant_paso()==3:
+        sg.theme('black')
+        layout = [
+            [sg.Image(r'ganaste.png')],  #Imagen hecha por los integrantes   fin_del_juego.png
+            [sg.Button("¡Entendido!",key="ok")]
+         ]
+        win1=sg.Window("Ganaste!").Layout(layout)
+        while True :
+            e,v=win1.read()
+            if e== None:
+                break
+            if e=="ok":
+                break
+        win1.close()
+    elif no_hay_partida!=True and maquina.get_puntaje_total()!=0:
+        sg.theme('black')
+        layout = [
+            [sg.Image(r'perdiste.png')],  #Imagen hecha por los integrantes   fin_del_juego.png
+            [sg.Button("¡Entendido!",key="ok")]
+         ]
+        win1=sg.Window("Perdiste").Layout(layout)
+        while True :
+            e,v=win1.read()
+            if e== None:
+                break
+            if e=="ok":
+                break
+        win1.close()
     if listas_palabras != "" and op==False:
         sg.theme('black')
         layout = [

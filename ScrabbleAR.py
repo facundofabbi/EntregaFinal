@@ -37,18 +37,24 @@ if todo[2]:
     ok_juegaMaquina=False
     formo_palabra_corta=True
     ok_no_entro=True
+    no_hay_partida=True
+    Reanudo_partida=True
     try:
         if ok_posponer:
-            listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1)
+            listas_palabras=AV.ReaundarPartida(g,window,maquina,tab_Ejecucuon,ab,Jugador1,nivel)
             if listas_palabras!= "":
+                no_hay_partida=False
+                Reanudo_partida=False
                 lista_total_persona=listas_palabras[1]
                 lista_total_maquina=listas_palabras[0]
                 tiempo_actual=listas_palabras[2]
+                nivel=listas_palabras[3]
         segundaletra=False
         start_time = int(round(time.time()*100))-tiempo_actual
-        agrego_letra_del_tablero=   True
+        agrego_letra_del_tablero=True
         arranque_random=r.randrange(2)
         if arranque_random==1:
+            no_hay_partida=False
             letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
             maquina.PrimerLugar(tab_Ejecucuon,g)
             AV.roleo_random_fichas(ab.get_keys(),window,len(letrita[1]),ab)
@@ -62,7 +68,6 @@ if todo[2]:
             if ok_juegaMaquina:
                 ok_juegaMaquina=False
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
-                print(arranque_random)
                 if arranque_random==0:
                     maquina.PrimerLugar(tab_Ejecucuon,g)
                     arranque_random=1
@@ -82,6 +87,8 @@ if todo[2]:
                                                                 tiempo_actual%100))
             tiempo_actual+=1
             tuplita=tab_Ejecucuon.get_posicionLetra_anterior()
+            if maquina.get_cant_paso()==3:
+                raise IndexError
             if ((nivel[0]=="Facil" and tiempo_actual>60000) or (nivel[0]=="Medio" and tiempo_actual>=42000) or (nivel[0]=="VB" and tiempo_actual>=30000) or (nivel[0]=="JJ" and tiempo_actual>=30000)):
                 okey_fin=True
                 raise IndexError
@@ -93,7 +100,7 @@ if todo[2]:
 
             if len(tab_Ejecucuon.get_key_usadas())==0 and  not Jugador1.get_boton_seleccionado():
                 ok_invalida_todo=True
-
+            no_hay_partida=False
             if (event=="paso" and ok_invalida_todo):
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
                 if arranque_random==0:
@@ -145,9 +152,9 @@ if todo[2]:
                 if tab_Ejecucuon.get_palabra()!="":
                     agrego_letra_del_tablero=   True
                     if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+                    #if True:
                         ok_no_entro=False
                         arranque_random=0
-                    #if True:
                         palabra = tab_Ejecucuon.get_palabra()
                         lista_total_persona.append(Jugador1.Actualizar_Puntaje(AV,tab_Ejecucuon))
                         AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
@@ -215,9 +222,10 @@ if todo[2]:
                 box_y = mouse2//tab_Ejecucuon.get_tam_Celda()
                 if  box_x > 14 or box_y > 14:
                     continue
-                if arranque_random==0 and (box_x!=7 or box_y!=7):
+                if arranque_random==0 and (box_x!=7 or box_y!=7) and Reanudo_partida :
                     continue
                 else:
+                    Reanudo_partida=False
                     arranque_random=1
                 if Jugador1.get_boton_seleccionado(): # logica de boton
                     if not segundaletra and not tab_Ejecucuon.get_selected_posicion(box_x,box_y):
@@ -263,4 +271,4 @@ if todo[2]:
                             continue
         window.close()
     except(IndexError):
-        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,okey_fin,tab_Ejecucuon)
+        AV.FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,okey_fin,tab_Ejecucuon,no_hay_partida)

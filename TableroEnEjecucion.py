@@ -256,6 +256,7 @@ class Turno:
         anterior=self._posicionLetra1
         anterior_x=anterior[0]
         anterior_y=anterior[1]
+        ok=True
         if anterior_y-1 !=-1:
             if self.get_abajo():
                 ok1=True
@@ -264,13 +265,15 @@ class Turno:
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
+                    ok=False
                     return True
-                if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and ok1:
+                if self.get_coordenadas_en_tablero(anterior_x,anterior_y-1)!="" and ok1 and ok:
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y-1))
                     self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
+                    ok=False
                     return True
                 if anterior_y+1<=14:
-                    if self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" and ok1 :
+                    if self.get_coordenadas_en_tablero(anterior_x,anterior_y+1)!="" and ok1 and ok :
                         self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y))
                         self.set_palabra(self.get_coordenadas_en_tablero(anterior_x,anterior_y+1))
                         return True
