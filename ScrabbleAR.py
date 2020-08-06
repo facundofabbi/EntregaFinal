@@ -91,6 +91,9 @@ if todo[2]:
             if event=="TIMEOUT_KEY" or event=="_GRAPH_6" or event=="_GRAPH_7" or event=="_GRAPH_8" or event=="_GRAPH_9":
                 continue
 
+            if len(tab_Ejecucuon.get_key_usadas())==0 and  not Jugador1.get_boton_seleccionado():
+                ok_invalida_todo=True
+
             if (event=="paso" and ok_invalida_todo):
                 letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
                 if arranque_random==0:
@@ -140,10 +143,11 @@ if todo[2]:
                     formo_palabra_corta=True
                     continue
                 if tab_Ejecucuon.get_palabra()!="":
-                    # tab_Ejecucuon.ultima_letra()
                     agrego_letra_del_tablero=   True
-                    #if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
-                    if True:
+                    if AV.EvaluarPalabra(tab_Ejecucuon.get_palabra(),nivel[0]):
+                        ok_no_entro=False
+                        arranque_random=0
+                    #if True:
                         palabra = tab_Ejecucuon.get_palabra()
                         lista_total_persona.append(Jugador1.Actualizar_Puntaje(AV,tab_Ejecucuon))
                         AV.Post_Evaluamos(window,Jugador1,tab_Ejecucuon)
@@ -153,12 +157,13 @@ if todo[2]:
                         AV.VerPuntajeNuevo(lista_total_persona,window,Jugador1)
                     else:
                         AV.palabra_Invalida(tab_Ejecucuon,g,Jugador1,window)
+                        if ok_no_entro:
+                            ok_no_entro=False
+                            arranque_random=0
                     Jugador1.FinTurno()
                     tab_Ejecucuon.FinTurno()
                     segundaletra=False
                     letrita = maquina.EncontrarPalabra(nivel[0],tab_Ejecucuon)
-                    # print("encotnre esta letra:   "+letrita[0])
-                    # print(maquina.get_palabra())
                     if arranque_random==0:
                         maquina.PrimerLugar(tab_Ejecucuon,g)
                         arranque_random=1

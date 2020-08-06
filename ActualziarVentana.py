@@ -304,7 +304,7 @@ def Top10():
     lista1=json.load(archivo)
     archivo.close()
     sg.theme('DarkAmber')
-    layout = [ [sg.Listbox(lista1,key='lista_maquina',size=(20,10))],
+    layout = [ [sg.Listbox(lista1,key='lista_maquina',size=(20,15))],
     [sg.Button("Ok",size=(10,2))]]
     w = sg.Window('Top 10').Layout(layout)
     while True:
@@ -330,6 +330,7 @@ def FinDelJuego(window,maquina,Jugador1,Top,listas_palabras,op,tab):
     lista=-1
     MostrarFichasMaquina(window,maquina,tab)
     nombre=(Jugador1.get_nombre(),Jugador1.get_puntaje_total())
+    print(nombre)
     Top.modificar_lista_ganadores(nombre)
     archivo = open('posponerPartida.json','w')
     json.dump(lista,archivo)

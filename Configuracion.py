@@ -10,10 +10,11 @@ def Configuracion():
     #self.main_container = gui.VBox(width=300, height=300)
 
     frame_layout = [
-                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input("Jugador",key='nombre')],
-                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(10,1)), sg.Radio('MEDIO', "ELEGIR",size=(10,1)), sg.Radio('DIFICIL', "ELEGIR",size=(10,1))],
-                  [sg.Radio('TABLERO 1', "elegir_tablero", default=True,size=(10,1)), sg.Radio('TABLERO 2', "elegir_tablero",size=(10,1)), sg.Radio('TABLERO 3', "elegir_tablero",size=(10,1))]
-                  ,[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida"),sg.Button('Top10',size=(10,1))]
+                  [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input("Jugador",key='nombre')],[sg.Text('')],
+                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(14,1)), sg.Radio('MEDIO', "ELEGIR",size=(14,1)), sg.Radio('DIFICIL', "ELEGIR",size=(14,1))],
+                  [sg.Radio('TABLERO 1', "elegir_tablero", default=True,size=(14,1)), sg.Radio('TABLERO 2', "elegir_tablero",size=(14,1)), sg.Radio('TABLERO 3', "elegir_tablero",size=(14,1))],
+                  [sg.Image(r'Tablero_1.png'),sg.Image(r'Tablero_2.png'),sg.Image(r'Tablero_3.png')]
+                  ,[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida"),sg.Button('Top10',size=(10,1))]
                ]
     columna1 = [
              [sg.Frame('Configuración', frame_layout, font='Any 12', title_color='yellow')],
