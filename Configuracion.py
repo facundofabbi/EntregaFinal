@@ -11,7 +11,7 @@ def Configuracion():
 
     frame_layout = [
                   [sg.Text('')],[sg.Text('')],[sg.Text('')],[sg.Text('Usuario:'),sg.Input("Jugador",key='nombre')],[sg.Text('')],
-                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(14,1)), sg.Radio('MEDIO', "ELEGIR",size=(14,1)), sg.Radio('DIFICIL', "ELEGIR",size=(14,1))],
+                  [sg.Radio('FACIL', "ELEGIR", default=True,size=(14,1)), sg.Radio('MEDIO', "ELEGIR",size=(14,1)), sg.Radio('DIFICIL', "ELEGIR",size=(14,1))],[sg.Text(' ◦ 10 minutos',size=(17,1)),sg.Text('◦ 7 minutos',size=(17,1)),sg.Text('◦ 5 minutos')],[sg.Text(' ◦ Cualquier palabra',size=(17,1)),sg.Text('◦ Adjetivos y Verbos',size=(17,1)),sg.Text('◦ Adjetivos o Verbos')],
                   [sg.Radio('TABLERO 1', "elegir_tablero", default=True,size=(14,1)), sg.Radio('TABLERO 2', "elegir_tablero",size=(14,1)), sg.Radio('TABLERO 3', "elegir_tablero",size=(14,1))],
                   [sg.Image(r'Tablero_1.png'),sg.Image(r'Tablero_2.png'),sg.Image(r'Tablero_3.png')]
                   ,[sg.Text('')],[sg.Button('Iniciar',size=(10,1)),sg.Button('Salir',size=(10,1)),sg.Button("Reanudar partida"),sg.Button('Top10',size=(10,1))]
