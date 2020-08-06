@@ -3,6 +3,7 @@ Integrantes del grupo 10:
 Antelo Alejandro Nicolas
 Fabbi Agustin Federico
 Fabbi Facundo Tomas
+
 ◊ Consideraciones para el correcto funcionamiento de la aplicación: ● Tener instaldo: ◦ Python 3.6.8. ◦ Pattern 3.6. ◦ PySimpleGUI 4.18.2
 
 ◊ Instrucciones:
